@@ -1,6 +1,8 @@
 package com.backgammon;
 
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
@@ -46,16 +48,36 @@ public class Piece extends StackPane {
         getChildren().addAll(ground,piece);
 
 
+        setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
 
+                mousex= mouseEvent.getSceneX();
+                mousey=mouseEvent.getScreenY();
 
+            }
+        });
 
+        setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
 
+                relocate(mouseEvent.getSceneX()-mousex+oldx,mouseEvent.getSceneY()-mousey+oldy+Backgammon.size/2);
 
+            }
+        });
 
+        setOnMouseReleased(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent mouseEvent) {
 
+               oldx = mouseEvent.getSceneX() - mousex + oldx;
+               oldy = mouseEvent.getSceneY() - mousey + oldy+Backgammon.size/2;
+           }
 
+        }
 
-
+        );
 
 
     }
