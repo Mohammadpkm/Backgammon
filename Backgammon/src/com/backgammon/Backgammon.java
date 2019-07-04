@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 public class Backgammon extends Application {
 
 
-    public static final int size=200;
-    public static final int board_width=2400;
-    public static final int board_height=1800;
+    public static final int size=50;
+    public static final int board_width=600;
+    public static final int board_height=450;
 
 
 
@@ -30,13 +30,15 @@ public class Backgammon extends Application {
     public Parent top(){
 
         Pane root=new Pane();
-        dice1.setTranslateX(400);
-        dice1.setTranslateY(400);
+        dice1.setTranslateX(100);
+        dice1.setTranslateY(100);
 
-        dice2.setTranslateX(400);
-        dice2.setTranslateY(600);
+        dice2.setTranslateX(100);
+        dice2.setTranslateY(200);
 
         root.getChildren().addAll(dice1,dice2);
+        //root.setMinSize(1000,450);
+
 
         return root;
 
@@ -97,11 +99,17 @@ public class Backgammon extends Application {
          board[11][0].getPiecegroup(),board[11][1].getPiecegroup()
         );
 
+        dice1.setTranslateX(75);
+        dice1.setTranslateY(200);
+
+        dice2.setTranslateX(175);
+        dice2.setTranslateY(200);
 
 
 
-        stackPane.getChildren().addAll(iv,piecegroup);
-        stackPane.setMinSize(2000,1500);
+
+        stackPane.getChildren().addAll(iv,piecegroup,dice1,dice2);
+        //stackPane.setMinSize(1000,450);
 
 
 
@@ -144,7 +152,7 @@ public class Backgammon extends Application {
         //borderPane.setTop(top());
 
 
-        Scene scene=new Scene(borderPane,4000,2200);
+        Scene scene=new Scene(borderPane,board_width,board_height);
 
 
         stage.setTitle("Backgammon");
