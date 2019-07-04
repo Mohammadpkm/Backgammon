@@ -12,8 +12,31 @@ public class Piece extends StackPane {
     Ellipse ground = new Ellipse(Backgammon.size*.3125,Backgammon.size*.26);
     Ellipse piece = new Ellipse(Backgammon.size*.3125,Backgammon.size*.26);
 
+    int colmn_x=0;
+    int colmn_y=0;
 
     Piecetype type;
+
+
+    public int getColmn_x() {
+        return colmn_x;
+    }
+
+
+    public int getColmn_y() {
+        return colmn_y;
+    }
+
+
+    public void setColmn_x(int colmn_x) {
+        this.colmn_x = colmn_x;
+    }
+
+
+    public void setColmn_y(int colmn_y) {
+        this.colmn_y = colmn_y;
+    }
+
 
     public Piecetype getType(){
 
@@ -29,9 +52,13 @@ public class Piece extends StackPane {
 
     public double getOldy(){return oldy;}
 
-    public Piece(Piecetype type,double x,double y) {
+    public Piece(Piecetype type,double x,double y,int colmn_x,int colmn_y) {
         this.type = type;
         move(x,y);
+
+        this.colmn_x=colmn_x;
+        this.colmn_y=colmn_y;
+
 
         ground.setFill(Color.BLACK);
 
@@ -73,6 +100,68 @@ public class Piece extends StackPane {
 
                oldx = mouseEvent.getSceneX() - mousex + oldx;
                oldy = mouseEvent.getSceneY() - mousey + oldy;//+Backgammon.size/2;
+
+
+               for(int i=0;i<12;i++){
+
+                   for(int j=0;j<2;j++){
+
+
+                       if((i<6)&&(j==0)){
+
+
+                           if((oldx>=.1359*(Backgammon.board_width/2)+.1239*i*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4))&&(oldx<=.1359*(Backgammon.board_width/2)+.1239*(i+1)*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4))){
+
+                               if((oldy>=.03*(Backgammon.board_height/2))&&(oldy<=2*Backgammon.board_height/5)){
+
+
+
+
+                               }
+
+                           }
+
+
+
+                       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   }
+
+
+               }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
            }
 
         }

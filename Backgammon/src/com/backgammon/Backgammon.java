@@ -24,8 +24,6 @@ public class Backgammon extends Application {
     public Dice dice1=new Dice();
     public Dice dice2=new Dice();
     public Colmn board[][]=new Colmn[12][2];
-
-
     public Group piecegroup = new Group();
 
 
@@ -68,6 +66,8 @@ public class Backgammon extends Application {
 
                 Colmn colmn=new Colmn(i,j);
                 board[i][j]=colmn;
+                piecegroup.getChildren().add(board[i][j].getPiecegroup());
+
 
             }
 
@@ -95,11 +95,18 @@ public class Backgammon extends Application {
             }
 
         }
-        piecegroup.getChildren().addAll(board[0][0].getPiecegroup(),board[0][1].getPiecegroup()
+
+      /*  piecegroup.getChildren().addAll(board[0][0].getPiecegroup(),board[0][1].getPiecegroup()
         ,board[6][1].getPiecegroup(),board[6][0].getPiecegroup(),
          board[4][1].getPiecegroup(),board[4][0].getPiecegroup(),
          board[11][0].getPiecegroup(),board[11][1].getPiecegroup()
-        );
+        );*/
+
+
+
+
+
+
 
         dice1.setTranslateX(board_width/5);
         dice1.setTranslateY(board_height/2);
