@@ -15,9 +15,9 @@ import javafx.stage.Stage;
 public class Backgammon extends Application {
 
 
-    public static final int size=80;
-    public static final int board_width=960;
-    public static final int board_height=720;
+    public static final int size=150;//200 is base
+    public static final int board_width=1800;//2400 is base
+    public static final int board_height=1350;//1800 is base
 
 
 
