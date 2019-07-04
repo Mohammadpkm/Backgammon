@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Colmn extends Rectangle {
 
-    private Group piecegroup = new Group();
+    public Group piecegroup = new Group();
     int x=0;
     int y=0;
 
@@ -34,47 +34,14 @@ public class Colmn extends Rectangle {
 
     }
 
-    public void piece_adder(Piecetype piecetype) {
+   /* public void piece_adder(Piecetype piecetype) {
 
 
 
-        if((x<6)&&(y==0)){
-
-            piecegroup.getChildren().add(new Piece(piecetype,.1359*(Backgammon.board_width/2)+.1239*x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4),
-                    .03*(Backgammon.board_height/2)+(piece_counter()+1)*Backgammon.size/2,x,y));
 
 
 
-        }
-
-        if((x>=6)&&(y==0)){
-
-            piecegroup.getChildren().add(new Piece(piecetype,.5612*(Backgammon.board_width)+.1239*(x-6)*(Backgammon.board_width/2),
-                    .03*(Backgammon.board_height/2)+(piece_counter()+1)*Backgammon.size/2,x,y));
-
-
-        }
-
-        if((x<6)&&(y==1)){
-
-            piecegroup.getChildren().add(new Piece(piecetype,.1359*(Backgammon.board_width/2)+.1239*x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4),
-                    .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(piece_counter()+1)*Backgammon.size/2,x,y));
-
-
-        }
-
-        if((x>=6)&&(y==1)){
-
-            piecegroup.getChildren().add(new Piece(piecetype,.5612*(Backgammon.board_width)+.1239*(x-6)*(Backgammon.board_width/2),
-                    .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(piece_counter()+1)*Backgammon.size/2,x,y));
-
-
-
-        }
-
-
-
-    }
+    }*/
 
     public Colmn(int x_i,int y_i){
 

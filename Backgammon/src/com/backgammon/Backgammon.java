@@ -14,10 +14,11 @@ import javafx.stage.Stage;
 
 public class Backgammon extends Application {
 
-    public static final int base = 35;//100 is base
+    public static final int base = 60;//100 is base
     public static final int size = 2 * base;//200 is base
     public static final int board_width = 24 * base;//2400 is base
     public static final int board_height = 18 * base;//1800 is base
+    boolean incorrect_place_flag=true;
 
 
 
@@ -45,6 +46,155 @@ public class Backgammon extends Application {
 
 
     }*/
+   public Colmn colmn_finder(double x,double y){
+
+
+       int x_location=0;
+       int y_location=0;
+
+       for(int j=0;j<2;j++){
+
+           for(int i=0;i<12;i++){
+
+
+               if((i<6)&&(j==0)){
+
+                   if((x>=(.1359*(Backgammon.board_width/2)+.1239*i*(Backgammon.board_width/2)))&&(y>=(.1349*(Backgammon.board_height/2)))) {
+
+                       if ((x <(.1359*(Backgammon.board_width/2)+.1239*(i+1)*(Backgammon.board_width/2))) && (y < (2 * Backgammon.board_height / 5))) {
+
+                           incorrect_place_flag=false;
+                           x_location = i;
+                           y_location = j;
+
+                       }
+                   }
+               }
+
+               if((i<6)&&(j==1)){
+
+                   if((x>=(.1359*(Backgammon.board_width/2)+.1239*i*(Backgammon.board_width/2)))&&(y>=(3 * Backgammon.board_height / 5))){
+
+                       if((x <(.1359*(Backgammon.board_width/2)+.1239*(i+1)*(Backgammon.board_width/2))) &&( y<=(.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)))){
+
+                           incorrect_place_flag=false;
+                           x_location = i;
+                           y_location = j;
+
+                       }
+
+                   }
+
+               }
+
+
+
+               if((i>=6)&&(j==0)){
+
+                   if((x>=(.5612*(Backgammon.board_width)+.1239*(i-6)*(Backgammon.board_width/2)))&&(y>=(.1349*(Backgammon.board_height/2)))) {
+
+                       if ((x <(.5612*(Backgammon.board_width)+.1239*(i-5)*(Backgammon.board_width/2))) && (y < (2 * Backgammon.board_height / 5))) {
+
+                           incorrect_place_flag=false;
+                           x_location = i;
+                           y_location = j;
+
+                       }
+                   }
+               }
+
+
+               if((i>=6)&&(j==1)){
+
+                   if((x>=(.5612*(Backgammon.board_width)+.1239*(i-6)*(Backgammon.board_width/2)))&&(y>=(3 * Backgammon.board_height / 5))) {
+
+                       if ((x <(.5612*(Backgammon.board_width)+.1239*(i-5)*(Backgammon.board_width/2))) && (y < (.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)))) {
+
+                           incorrect_place_flag=false;
+                           x_location = i;
+                           y_location = j;
+
+                       }
+                   }
+               }
+
+
+           }
+
+
+       }
+
+       return board[x_location][y_location];
+
+   }
+
+
+
+
+
+
+
+   public void piece_adder(final Colmn colmn, final Piecetype piecetype){
+
+      final  Piece piece=new Piece(piecetype);
+
+
+       if((colmn.x<6)&&(colmn.y==0)){
+
+           piece.setOldx(.1359*(Backgammon.board_width/2)+.1239*colmn.x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4));
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/2);
+
+       }
+
+       if((colmn.x>=6)&&(colmn.y==0)){
+
+           piece.setOldx(.5612*(Backgammon.board_width)+.1239*(colmn.x-6)*(Backgammon.board_width/2));
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/2);
+
+       }
+
+       if((colmn.x<6)&&(colmn.y==1)){
+
+           piece.setOldx(.1359*(Backgammon.board_width/2)+.1239*colmn.x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4));
+           piece.setOldy(.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/2);
+
+       }
+
+       if((colmn.x>=6)&&(colmn.y==1)){
+
+           piece.setOldx(.5612*(Backgammon.board_width)+.1239*(colmn.x-6)*(Backgammon.board_width/2));
+           piece.setOldy( .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/2);
+
+       }
+
+       piece.move();
+       colmn.piecegroup.getChildren().add(piece);
+
+
+       piece.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                               @Override
+                              public void handle(MouseEvent mouseEvent) {
+
+                                   colmn.remove_piece();
+                                   piece_adder(colmn_finder(mouseEvent.getSceneX(),mouseEvent.getSceneY()),piecetype);
+
+
+
+
+                                  piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
+                                  piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
+                                  piece.move();
+                              }
+
+                          }
+
+       );
+
+
+
+   }
+
+
 
 
     public Parent center(){
@@ -75,31 +225,23 @@ public class Backgammon extends Application {
         }
         for(int count=0;count<5;count++){
 
-            //board[0][0].piece_adder(Piecetype.RED);
-            //board[0][1].piece_adder(Piecetype.GRAY);
 
-            makePiece(Piecetype.RED, 0, 0);
-            makePiece(Piecetype.GRAY, 0, 1);
+            piece_adder(board[0][0],Piecetype.RED);
+            piece_adder(board[0][1],Piecetype.GRAY);
 
-            //board[6][1].piece_adder(Piecetype.RED);
-            //board[6][0].piece_adder(Piecetype.GRAY);
 
-            makePiece(Piecetype.RED, 6, 1);
-            makePiece(Piecetype.GRAY, 6, 0);
+            piece_adder(board[6][1],Piecetype.RED);
+            piece_adder(board[6][0],Piecetype.GRAY);
 
             if(count<3){
 
-                //board[4][1].piece_adder(Piecetype.RED);
-                //board[4][0].piece_adder(Piecetype.GRAY);
-                makePiece(Piecetype.RED, 4, 1);
-                makePiece(Piecetype.GRAY, 4, 0);
+                piece_adder(board[4][1],Piecetype.RED);
+                piece_adder(board[4][0],Piecetype.GRAY);
 
                 if(count<2){
 
-                    //board[11][0].piece_adder(Piecetype.RED);
-                    //board[11][1].piece_adder(Piecetype.GRAY);
-                    makePiece(Piecetype.RED, 11, 0);
-                    makePiece(Piecetype.GRAY, 11, 1);
+                    piece_adder(board[11][0],Piecetype.RED);
+                    piece_adder(board[11][1],Piecetype.GRAY);
 
                 }
 
@@ -107,15 +249,6 @@ public class Backgammon extends Application {
             }
 
         }
-
-      /*  piecegroup.getChildren().addAll(board[0][0].getPiecegroup(),board[0][1].getPiecegroup()
-        ,board[6][1].getPiecegroup(),board[6][0].getPiecegroup(),
-         board[4][1].getPiecegroup(),board[4][0].getPiecegroup(),
-         board[11][0].getPiecegroup(),board[11][1].getPiecegroup()
-        );*/
-
-
-
 
 
 
@@ -174,12 +307,6 @@ public class Backgammon extends Application {
         });
 
 
-
-    }
-
-    private void makePiece(Piecetype type, int x, int y){
-        //Piece piece = new Piece(type, x, y);
-        board[x][y].piece_adder(type);
 
     }
 
