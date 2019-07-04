@@ -32,13 +32,13 @@ public class Dice extends StackPane {
        this.setAlignment(Pos.CENTER);
        getChildren().addAll(rectangle,text);
 
-       this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-           @Override
-           public void handle(MouseEvent mouseEvent) {
-               roll();
-
-           }
-       });
+//       this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//           @Override
+//           public void handle(MouseEvent mouseEvent) {
+//               roll();
+//
+//           }
+//       });
 
    }
 
