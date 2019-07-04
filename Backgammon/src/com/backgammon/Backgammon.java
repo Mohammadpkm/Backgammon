@@ -1,11 +1,13 @@
 package com.backgammon;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -159,6 +161,21 @@ public class Backgammon extends Application {
         stage.setScene(scene);
         stage.show();
 
+        dice1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                dice1.roll();
+                dice2.roll();
+            }
+        });
+
+        dice2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                dice1.roll();
+                dice2.roll();
+            }
+        });
 
 
 
