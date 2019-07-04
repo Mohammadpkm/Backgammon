@@ -52,8 +52,8 @@ public class Piece extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-                mousex= mouseEvent.getSceneX();
-                mousey=mouseEvent.getScreenY();
+                mousex = mouseEvent.getSceneX();
+                mousey = mouseEvent.getSceneY();
 
             }
         });
@@ -62,7 +62,7 @@ public class Piece extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-                relocate(mouseEvent.getSceneX()-mousex+oldx,mouseEvent.getSceneY()-mousey+oldy+Backgammon.size/2);
+                relocate(mouseEvent.getSceneX()-mousex+oldx,mouseEvent.getSceneY()-mousey+oldy);//+Backgammon.size);
 
             }
         });
@@ -72,7 +72,7 @@ public class Piece extends StackPane {
            public void handle(MouseEvent mouseEvent) {
 
                oldx = mouseEvent.getSceneX() - mousex + oldx;
-               oldy = mouseEvent.getSceneY() - mousey + oldy+Backgammon.size/2;
+               oldy = mouseEvent.getSceneY() - mousey + oldy;//+Backgammon.size/2;
            }
 
         }
