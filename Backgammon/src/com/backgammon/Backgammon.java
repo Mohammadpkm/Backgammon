@@ -49,6 +49,7 @@ public class Backgammon extends Application {
    public Colmn colmn_finder(double x,double y){
 
 
+       incorrect_place_flag=true;
        int x_location=0;
        int y_location=0;
 
@@ -178,6 +179,13 @@ public class Backgammon extends Application {
                                    colmn.remove_piece();
                                    piece_adder(colmn_finder(mouseEvent.getSceneX(),mouseEvent.getSceneY()),piecetype);
 
+                                   if(incorrect_place_flag){
+
+                                       colmn_finder(mouseEvent.getSceneX(),mouseEvent.getSceneY()).remove_piece();
+                                       piece_adder(colmn,piecetype);
+
+
+                                   }
 
 
 
