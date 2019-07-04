@@ -14,10 +14,10 @@ import javafx.stage.Stage;
 
 public class Backgammon extends Application {
 
-
-    public static final int size=150;//200 is base
-    public static final int board_width=1800;//2400 is base
-    public static final int board_height=1350;//1800 is base
+    public static final int base = 35;//100 is base
+    public static final int size = 2 * base;//200 is base
+    public static final int board_width = 24 * base;//2400 is base
+    public static final int board_height = 18 * base;//1800 is base
 
 
 
@@ -27,7 +27,7 @@ public class Backgammon extends Application {
     public Group piecegroup = new Group();
 
 
-    public Parent top(){
+   /* public Parent top(){
 
         Pane root=new Pane();
         dice1.setTranslateX(100);
@@ -44,7 +44,7 @@ public class Backgammon extends Application {
 
 
 
-    }
+    }*/
 
 
     public Parent center(){
@@ -75,19 +75,31 @@ public class Backgammon extends Application {
         }
         for(int count=0;count<5;count++){
 
-            board[0][0].piece_adder(Piecetype.RED);
-            board[0][1].piece_adder(Piecetype.GRAY);
-            board[6][1].piece_adder(Piecetype.RED);
-            board[6][0].piece_adder(Piecetype.GRAY);
+            //board[0][0].piece_adder(Piecetype.RED);
+            //board[0][1].piece_adder(Piecetype.GRAY);
+
+            makePiece(Piecetype.RED, 0, 0);
+            makePiece(Piecetype.GRAY, 0, 1);
+
+            //board[6][1].piece_adder(Piecetype.RED);
+            //board[6][0].piece_adder(Piecetype.GRAY);
+
+            makePiece(Piecetype.RED, 6, 1);
+            makePiece(Piecetype.GRAY, 6, 0);
+
             if(count<3){
 
-                board[4][1].piece_adder(Piecetype.RED);
-                board[4][0].piece_adder(Piecetype.GRAY);
+                //board[4][1].piece_adder(Piecetype.RED);
+                //board[4][0].piece_adder(Piecetype.GRAY);
+                makePiece(Piecetype.RED, 4, 1);
+                makePiece(Piecetype.GRAY, 4, 0);
 
                 if(count<2){
 
-                    board[11][0].piece_adder(Piecetype.RED);
-                    board[11][1].piece_adder(Piecetype.GRAY);
+                    //board[11][0].piece_adder(Piecetype.RED);
+                    //board[11][1].piece_adder(Piecetype.GRAY);
+                    makePiece(Piecetype.RED, 11, 0);
+                    makePiece(Piecetype.GRAY, 11, 1);
 
                 }
 
@@ -108,17 +120,17 @@ public class Backgammon extends Application {
 
 
 
-        dice1.setTranslateX(board_width/5);
+        dice1.setTranslateX(board_width/8);
         dice1.setTranslateY(board_height/2);
 
-        dice2.setTranslateX(board_width/5+size);
+        dice2.setTranslateX(3*board_width/8 - base);
         dice2.setTranslateY(board_height/2);
 
 
 
 
         stackPane.getChildren().addAll(iv,piecegroup,dice1,dice2);
-        stackPane.setMinSize(1000,450);
+        //stackPane.setMinSize(1000,450);
 
 
         return stackPane;
@@ -162,6 +174,12 @@ public class Backgammon extends Application {
         });
 
 
+
+    }
+
+    private void makePiece(Piecetype type, int x, int y){
+        //Piece piece = new Piece(type, x, y);
+        board[x][y].piece_adder(type);
 
     }
 
