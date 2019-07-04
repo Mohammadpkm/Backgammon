@@ -15,9 +15,9 @@ import javafx.stage.Stage;
 public class Backgammon extends Application {
 
 
-    public static final int size=50;
-    public static final int board_width=600;
-    public static final int board_height=450;
+    public static final int size=200;
+    public static final int board_width=2400;
+    public static final int board_height=1800;
 
 
 
@@ -101,40 +101,17 @@ public class Backgammon extends Application {
          board[11][0].getPiecegroup(),board[11][1].getPiecegroup()
         );
 
-        dice1.setTranslateX(75);
-        dice1.setTranslateY(200);
+        dice1.setTranslateX(board_width/5);
+        dice1.setTranslateY(board_height/2);
 
-        dice2.setTranslateX(175);
-        dice2.setTranslateY(200);
+        dice2.setTranslateX(board_width/5+size);
+        dice2.setTranslateY(board_height/2);
 
 
 
 
         stackPane.getChildren().addAll(iv,piecegroup,dice1,dice2);
-        //stackPane.setMinSize(1000,450);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        stackPane.setMinSize(1000,450);
 
 
         return stackPane;
@@ -176,16 +153,6 @@ public class Backgammon extends Application {
                 dice2.roll();
             }
         });
-
-
-
-
-
-
-
-
-
-
 
 
 

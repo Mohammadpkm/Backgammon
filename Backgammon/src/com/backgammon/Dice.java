@@ -21,7 +21,7 @@ public class Dice extends StackPane {
 
    public Dice(){
 
-       Rectangle rectangle=new Rectangle(50,50);
+       Rectangle rectangle=new Rectangle(Backgammon.size/2,Backgammon.size/2);
        rectangle.setFill(Color.YELLOW);
        rectangle.setStroke(Color.ORANGE);
        rectangle.setStrokeWidth(5);
