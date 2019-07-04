@@ -45,7 +45,21 @@ public class Piece extends StackPane {
 
         getChildren().addAll(ground,piece);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
 
 
     public void move(double x,double y){
