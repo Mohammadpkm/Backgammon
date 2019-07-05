@@ -20,7 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
 
-import java.util.concurrent.TimeUnit;
 
 public class Backgammon extends Application {
 
