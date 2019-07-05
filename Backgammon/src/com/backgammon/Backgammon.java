@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.concurrent.TimeUnit;
+
 public class Backgammon extends Application {
 
     public static final int base = 100;//100 is base
@@ -20,6 +22,10 @@ public class Backgammon extends Application {
     public static final int board_height = 18 * base;//1800 is base
     boolean incorrect_place_flag=true;
     public  int turn_flag=1;
+    int first_dice;
+    int second_dice;
+    Player player1=new Player(0,Piecetype.RED,0);
+    Player player2=new Player(0,Piecetype.GRAY,0);
 
 
 
@@ -49,6 +55,51 @@ public class Backgammon extends Application {
 
     }*/
 
+   public void seting_dice_number(){
+
+
+       first_dice=dice1.getDice_number();
+       second_dice=dice2.getDice_number();
+
+       /*System.out.println(first_dice);
+       System.out.println(second_dice);*/
+
+
+
+   }
+
+   public void dicing(){
+
+
+       dice1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent mouseEvent) {
+
+
+               dice1.roll();
+               dice2.roll();
+               seting_dice_number();
+               piece_highlight();
+
+           }
+       });
+
+       dice2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent mouseEvent) {
+
+
+               dice1.roll();
+               dice2.roll();
+               seting_dice_number();
+               piece_highlight();
+
+           }
+       });
+
+
+   }
+
    public void turn_changer(){
 
        turn_flag=turn_flag*(-1);
@@ -57,6 +108,101 @@ public class Backgammon extends Application {
 
 
    public void piece_highlight(){
+
+       int x=0;
+       int y=0;
+       boolean runing_flag=false;
+
+       if(turn_flag==player1.piecetype.turn){
+
+
+
+
+                   for(int j=0;j<2;j++){
+
+                       for(int i=0;i<12;i++){
+
+                           if(board[i][j].piece_counter()>0) {
+                               if (board[i][j].piecelist.getLast().getType() == player1.piecetype) {
+
+                                   if (j == 0 && (i - first_dice >= 0)) {
+
+                                       x = i - first_dice;
+                                       y = j;
+                                       runing_flag = true;
+
+                                   }
+                                   if (j == 0 && (i - first_dice < 0)) {
+
+                                       x = Math.abs(i - first_dice) - 1;
+                                       y = 1;
+                                       runing_flag = true;
+
+                                   }
+                                   if (j == 1 && (i + first_dice <= 11)) {
+
+                                       x = i + first_dice;
+                                       y = 1;
+                                       runing_flag = true;
+                                       System.out.println(i);
+                                       System.out.println(j);
+                                       System.out.println(first_dice);
+
+                                   }
+
+                                   if (runing_flag) {
+
+                                       if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+
+
+                                           board[i][j].piecelist.getLast().sethighlight();
+                                           runing_flag=false;
+
+
+                                       }
+
+
+                                   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               }
+                           }
+
+
+                       }
+                   }
+
+
+       }
+
+
+
+
+
+
+
 
 
    }
@@ -199,6 +345,7 @@ public class Backgammon extends Application {
                if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                    piece.mousex = mouseEvent.getSceneX();
                    piece.mousey = mouseEvent.getSceneY();
+                   piece.removehighlight();
 
                }
            }
@@ -225,6 +372,7 @@ public class Backgammon extends Application {
 
                                    if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                                        colmn.remove_piece();
+
                                        piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
 
                                        if (incorrect_place_flag) {
@@ -309,6 +457,7 @@ public class Backgammon extends Application {
 
 
 
+        dicing();
 
         dice1.setTranslateX(board_width/8);
         dice1.setTranslateY(board_height/2);
@@ -346,22 +495,6 @@ public class Backgammon extends Application {
         stage.setTitle("Backgammon");
         stage.setScene(scene);
         stage.show();
-
-        dice1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                dice1.roll();
-                dice2.roll();
-            }
-        });
-
-        dice2.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                dice1.roll();
-                dice2.roll();
-            }
-        });
 
 
 

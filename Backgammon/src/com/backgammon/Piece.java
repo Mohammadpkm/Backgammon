@@ -21,6 +21,20 @@ public class Piece extends StackPane {
     }
 
 
+    public void sethighlight(){
+
+       this.piece.setStroke(Color.YELLOW);
+       this.piece.setStrokeWidth(Backgammon.size*.07);
+
+    }
+
+    public void removehighlight(){
+
+        this.piece.setStroke(Color.BLACK);
+        this.piece.setStrokeWidth(Backgammon.size*.03);
+
+
+    }
 
 
     boolean movable=false;
@@ -61,19 +75,18 @@ public class Piece extends StackPane {
     }
 
 
+
     public Piece(Piecetype type) {
         this.type = type;
 
         move();
 
         ground.setFill(Color.BLACK);
-
         ground.setStroke(Color.BLACK);
         ground.setStrokeWidth(Backgammon.size*.03);
 
 
         piece.setFill(type==Piecetype.RED?Color.MAROON:Color.CHOCOLATE);
-
         piece.setStroke(Color.BLACK);
         piece.setStrokeWidth(Backgammon.size*.03);
 

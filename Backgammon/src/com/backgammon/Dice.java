@@ -16,6 +16,15 @@ public class Dice extends StackPane {
 
     public static final int max=6;
     public static final int min=1;
+
+    int dice_number;
+
+    public int getDice_number() {
+
+        return dice_number;
+
+    }
+
     public final SimpleIntegerProperty valueProperty=new SimpleIntegerProperty();
 
    public Dice(){
@@ -54,11 +63,13 @@ public class Dice extends StackPane {
            public void handle(ActionEvent actionEvent) {
 
 
-               valueProperty.set((int)(Math.random()*(max-min+1))+min);
+               valueProperty.set(dice_number);
+              // System.out.println(getDice_number());
 
            }
        });
 
+       dice_number=(int)(Math.random()*(max-min+1))+min;
        rotat.play();
 
    }

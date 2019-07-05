@@ -3,11 +3,22 @@ package com.backgammon;
 public class Player {
 
     int out_piece=0;
+
+    String name=new String();
+
     Piecetype piecetype=null;
 
-    int score=0;
-    boolean turn;
 
+    int score=0;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getOut_piece() {
         return out_piece;
@@ -33,14 +44,12 @@ public class Player {
         this.piecetype = piecetype;
     }
 
-    public boolean isTurn() {
-        return turn;
+
+
+    public Player(int out_piece, Piecetype piecetype, int score) {
+        this.out_piece = out_piece;
+        this.piecetype = piecetype;
+        this.score = score;
     }
-
-    public void setTurn(boolean turn) {
-        this.turn = turn;
-    }
-
-
 
 }
