@@ -14,6 +14,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -31,9 +32,11 @@ public class Backgammon extends Application {
     public  int turn_flag=1;
     int first_dice;
     int second_dice;
+    boolean first_dice_flag=true;
+    boolean second_dice_flag=true;
     Player player1=new Player(0,Piecetype.RED,0);
     Player player2=new Player(0,Piecetype.GRAY,0);
-
+    boolean runing_flag=false;
 
 
 
@@ -52,28 +55,39 @@ public class Backgammon extends Application {
 
     public Parent top(){
 
-        Pane root=new Pane();
+        AnchorPane root=new AnchorPane();
 
         Button playerOne = new Button("Change Player 1 Name");
+        playerOne.setFont(new Font("Chiller",base/3));
 
         playerOne.setTranslateX(board_width/8);
         playerOne.setTranslateY(base);
+        playerOne.setAlignment(Pos.BOTTOM_LEFT);
 
         Button playerTwo = new Button("Change Player 2 Name");
+        playerTwo.setFont(new Font("Chiller",base/3));
+
 
         playerTwo.setTranslateX(6*board_width/8);
         playerTwo.setTranslateY(base);
+        playerTwo.setAlignment(Pos.BOTTOM_RIGHT);
+
 
         this.playerOneLabel = new Label("Player 1");
-        playerOneLabel.setFont(new Font(0.7*base));
+        playerOneLabel.setFont(new Font("Chiller",base));
         playerOneLabel.setTextFill(Color.MAROON);
+        playerOneLabel.setMinHeight(base*1.5);
+        playerOneLabel.setAlignment(Pos.TOP_LEFT);
+
 
         this.playerTwoLabel = new Label("Player 2");
-        playerTwoLabel.setFont(new Font(0.7*base));
+        playerTwoLabel.setFont(new Font("Chiller",base));
         playerTwoLabel.setTextFill(Color.CHOCOLATE);
+        playerTwoLabel.setMinHeight(base*1.5);
+        playerTwoLabel.setAlignment(Pos.TOP_RIGHT);
 
         this.playersTurnIndicator = new Label();
-        playersTurnIndicator.setFont(new Font(base));
+        playersTurnIndicator.setFont(new Font("Chiller",base));
 
 
 
@@ -105,16 +119,9 @@ public class Backgammon extends Application {
             //playerTwoLabel.setText(playerTwoName);
         });
 
-
-
-
         root.getChildren().addAll(playerOne,playerTwo,playerOneLabel,playerTwoLabel,playersTurnIndicator);
         root.setMinHeight(2 * base);
-
-
         return root;
-
-
 
     }
 
@@ -134,14 +141,8 @@ public class Backgammon extends Application {
 
    public void seting_dice_number(){
 
-
        first_dice=dice1.getDice_number();
        second_dice=dice2.getDice_number();
-
-       /*System.out.println(first_dice);
-       System.out.println(second_dice);*/
-
-
 
    }
 
@@ -186,110 +187,142 @@ public class Backgammon extends Application {
            playersTurnIndicator.setText(playerTwoLabel.getText());
 
 
-   }
 
+   }
+    public void highlight_detect2(int i,int j,int temp){
+        int x=0;
+        int y=0;
+        runing_flag=false;
+
+        if (j == 1 && (i - temp >= 0)) {
+            x = i - temp;
+            y = j;
+            runing_flag = true;
+        }
+
+        if (j == 1 && (i - temp < 0)) {
+            x= Math.abs(i - temp) - 1;
+            y= 0;
+            runing_flag = true;
+        }
+
+        if (j == 0 && (i + temp <= 11)) {
+            x= i + temp;
+            y = 0;
+            runing_flag = true;
+        }
+
+        if (runing_flag) {
+            if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
+
+                board[i][j].piecelist.getLast().sethighlight();
+            }
+        }
+        runing_flag=false;
+    }
+
+
+   public void highlight_detect1(int i,int j,int temp){
+        int x=0;
+        int y=0;
+        runing_flag=false;
+
+       if (j == 0 && (i - temp >= 0)) {
+           x = i - temp;
+           y = j;
+           runing_flag = true;
+       }
+
+       if (j == 0 && (i - temp < 0)) {
+           x= Math.abs(i - temp) - 1;
+           y= 1;
+           runing_flag = true;
+       }
+
+       if (j == 1 && (i + temp <= 11)) {
+           x= i + temp;
+           y = 1;
+           runing_flag = true;
+       }
+
+       if (runing_flag) {
+           if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+
+               board[i][j].piecelist.getLast().sethighlight();
+           }
+       }
+       runing_flag=false;
+   }
 
    public void piece_highlight(){
 
-       int x=0;
-       int y=0;
-       boolean runing_flag=false;
+       int temp=0;
 
-       if(turn_flag==player1.piecetype.turn){
+       for(int j=0;j<2;j++){
 
+           for(int i=0;i<12;i++){
 
+               if(board[i][j].piece_counter()>0) {
 
+                   if (board[i][j].piecelist.getLast().getType() == player1.piecetype && (player1.piecetype.turn == turn_flag)) {
 
-                   for(int j=0;j<2;j++){
-
-                       for(int i=0;i<12;i++){
-
-                           if(board[i][j].piece_counter()>0) {
-                               if (board[i][j].piecelist.getLast().getType() == player1.piecetype) {
-
-                                   if (j == 0 && (i - first_dice >= 0)) {
-
-                                       x = i - first_dice;
-                                       y = j;
-                                       runing_flag = true;
-
-                                   }
-                                   if (j == 0 && (i - first_dice < 0)) {
-
-                                       x = Math.abs(i - first_dice) - 1;
-                                       y = 1;
-                                       runing_flag = true;
-
-                                   }
-                                   if (j == 1 && (i + first_dice <= 11)) {
-
-                                       x = i + first_dice;
-                                       y = 1;
-                                       runing_flag = true;
-                                       System.out.println(i);
-                                       System.out.println(j);
-                                       System.out.println(first_dice);
-
-                                   }
-
-                                   if (runing_flag) {
-
-                                       if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
-
-
-                                           board[i][j].piecelist.getLast().sethighlight();
-                                           runing_flag=false;
-
-
-                                       }
-
-
-                                   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                               }
-                           }
-
-
+                       if (first_dice_flag) {
+                           temp = first_dice;
+                           highlight_detect1(i, j, temp);
+                           highlight_detect1(i, j, temp);
                        }
+
+                       if (second_dice_flag) {
+                           temp = second_dice;
+                           highlight_detect1(i, j, temp);
+                           highlight_detect1(i, j, temp);
+                       }
+
+                         /*  if(first_dice_flag&&second_dice_flag){
+
+                               temp=first_dice+second_dice;
+                               highlight_detect1(i,j,temp);
+                               highlight_detect1(i,j,temp);
+
+
+                           }*/
+
                    }
 
 
+                   if (board[i][j].piecelist.getLast().getType() == player2.piecetype && (player2.piecetype.turn == turn_flag)) {
+
+
+                       if (first_dice_flag) {
+                           temp = first_dice;
+                           highlight_detect2(i, j, temp);
+                           highlight_detect2(i, j, temp);
+
+                       }
+
+                       if (second_dice_flag) {
+
+                           temp = second_dice;
+                           highlight_detect2(i, j, temp);
+                           highlight_detect2(i, j, temp);
+
+
+                       }
+
+                         /*  if(first_dice_flag&&second_dice_flag){
+
+                               temp=first_dice+second_dice;
+                               highlight_detect1(i,j,temp);
+                               highlight_detect1(i,j,temp);
+
+
+                           }*/
+
+                   }
+               }
+           }
        }
-
-
-
-
-
-
-
-
-
    }
-
-
 
 
 
@@ -446,8 +479,6 @@ public class Backgammon extends Application {
 
            }
        });
-
-
 
        piece.setOnMouseReleased(new EventHandler<MouseEvent>() {
                                @Override

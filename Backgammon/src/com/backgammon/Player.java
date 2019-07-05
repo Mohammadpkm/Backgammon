@@ -46,6 +46,7 @@ public class Player {
 
 
 
+
     public Player(int out_piece, Piecetype piecetype, int score) {
         this.out_piece = out_piece;
         this.piecetype = piecetype;
