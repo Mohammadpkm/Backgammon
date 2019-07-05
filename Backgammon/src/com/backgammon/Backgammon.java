@@ -19,6 +19,8 @@ public class Backgammon extends Application {
     public static final int board_width = 24 * base;//2400 is base
     public static final int board_height = 18 * base;//1800 is base
     boolean incorrect_place_flag=true;
+    public  int turn_flag=1;
+
 
 
 
@@ -46,6 +48,22 @@ public class Backgammon extends Application {
 
 
     }*/
+
+   public void turn_changer(){
+
+       turn_flag=turn_flag*(-1);
+
+   }
+
+
+   public void piece_highlight(){
+
+
+   }
+
+
+
+
    public Colmn colmn_finder(double x,double y){
 
 
@@ -171,8 +189,33 @@ public class Backgammon extends Application {
 
        piece.move();
        colmn.piece_adder(piece);
+       turn_changer();
 
 
+       piece.setOnMousePressed(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent mouseEvent) {
+
+               if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
+                   piece.mousex = mouseEvent.getSceneX();
+                   piece.mousey = mouseEvent.getSceneY();
+
+               }
+           }
+       });
+
+       piece.setOnMouseDragged(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent mouseEvent) {
+
+               if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
+
+                   piece.relocate(mouseEvent.getSceneX() - piece.mousex + piece.oldx, mouseEvent.getSceneY() - piece.mousey + piece.oldy);//+Backgammon.size);
+
+               }
+
+           }
+       });
 
 
 
@@ -180,7 +223,7 @@ public class Backgammon extends Application {
                                @Override
                               public void handle(MouseEvent mouseEvent) {
 
-                                   if(piece.isMovable()) {
+                                   if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                                        colmn.remove_piece();
                                        piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
 

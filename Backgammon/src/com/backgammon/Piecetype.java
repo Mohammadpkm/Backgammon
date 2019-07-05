@@ -4,11 +4,13 @@ public enum Piecetype {
 
     RED(1),GRAY(-1);
 
-    final int direct;
 
-    Piecetype(int direct){
 
-        this.direct=direct;
+    final int turn;
+
+    Piecetype(int turn){
+
+        this.turn=turn;
 
     }
 

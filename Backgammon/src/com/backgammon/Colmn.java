@@ -7,24 +7,10 @@ import java.util.LinkedList;
 
 public class Colmn extends Rectangle {
 
+
     public Group piecegroup = new Group();
 
     public LinkedList<Piece> piecelist=new LinkedList<Piece>();
-
-    public void piece_adder(Piece piece){
-
-        if(piece_counter()>0) {
-            piecelist.get(piece_counter() - 1).setMovable(false);
-        }
-
-        piecelist.add(piece);
-        piecegroup.getChildren().add(piece);
-
-        piecelist.get(piece_counter()-1).setMovable(true);
-
-
-    }
-
 
     public LinkedList<Piece> getPiecelist() {
         return piecelist;
@@ -37,6 +23,7 @@ public class Colmn extends Rectangle {
 
     int x=0;
     int y=0;
+
     public int getx() {
         return x;
     }
@@ -53,6 +40,20 @@ public class Colmn extends Rectangle {
 
     }
 
+    public void piece_adder(Piece piece){
+
+        if(piece_counter()>0) {
+            piecelist.get(piece_counter() - 1).setMovable(false);
+        }
+
+        piecelist.add(piece);
+        piecegroup.getChildren().add(piece);
+
+        piecelist.get(piece_counter()-1).setMovable(true);
+
+
+    }
+
     public void remove_piece() {
 
         piecegroup.getChildren().remove(piece_counter() - 1);
@@ -65,14 +66,6 @@ public class Colmn extends Rectangle {
 
     }
 
-   /* public void piece_adder(Piecetype piecetype) {
-
-
-
-
-
-
-    }*/
 
     public Colmn(int x_i,int y_i){
 

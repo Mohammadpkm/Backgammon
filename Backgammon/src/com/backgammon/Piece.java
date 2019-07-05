@@ -82,30 +82,7 @@ public class Piece extends StackPane {
 
 
 
-        setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
 
-                if(movable) {
-                    mousex = mouseEvent.getSceneX();
-                    mousey = mouseEvent.getSceneY();
-
-                }
-            }
-        });
-
-        setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-
-                if(movable) {
-
-                    relocate(mouseEvent.getSceneX() - mousex + oldx, mouseEvent.getSceneY() - mousey + oldy);//+Backgammon.size);
-
-                }
-
-            }
-        });
 
     }
 
