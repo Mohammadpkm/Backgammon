@@ -24,7 +24,7 @@ public class Backgammon extends Application {
 
     public Dice dice1=new Dice();
     public Dice dice2=new Dice();
-    public Colmn board[][]=new Colmn[12][2];
+    public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
 
     int cntr = 0;
