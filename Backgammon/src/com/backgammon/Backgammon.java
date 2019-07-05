@@ -294,6 +294,7 @@ public class Backgammon extends Application {
 
 
                        if (first_dice_flag) {
+
                            temp = first_dice;
                            highlight_detect2(i, j, temp);
                            highlight_detect2(i, j, temp);
@@ -324,6 +325,24 @@ public class Backgammon extends Application {
        }
    }
 
+   public void piece_highlight_remover(){
+
+
+       for(int j=0;j<2;j++) {
+
+           for (int i = 0; i < 12; i++) {
+
+               if (board[i][j].piece_counter() > 0) {
+
+                   board[i][j].piecelist.getLast().removehighlight();
+
+
+               }
+
+           }
+       }
+
+   }
 
 
    public Colmn colmn_finder(double x,double y){
@@ -461,7 +480,8 @@ public class Backgammon extends Application {
                if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                    piece.mousex = mouseEvent.getSceneX();
                    piece.mousey = mouseEvent.getSceneY();
-                   piece.removehighlight();
+                   piece_highlight_remover();
+
 
                }
            }
