@@ -13,8 +13,14 @@ public class Colmn extends Rectangle {
 
     public void piece_adder(Piece piece){
 
+        if(piece_counter()>0) {
+            piecelist.get(piece_counter() - 1).setMovable(false);
+        }
+
         piecelist.add(piece);
         piecegroup.getChildren().add(piece);
+
+        piecelist.get(piece_counter()-1).setMovable(true);
 
 
     }
@@ -51,6 +57,11 @@ public class Colmn extends Rectangle {
 
         piecegroup.getChildren().remove(piece_counter() - 1);
         piecelist.removeLast();
+
+        if(piece_counter()>0) {
+            piecelist.get(piece_counter() - 1).setMovable(true);
+        }
+
 
     }
 

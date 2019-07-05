@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class Backgammon extends Application {
 
-    public static final int base = 60;//100 is base
+    public static final int base = 100;//100 is base
     public static final int size = 2 * base;//200 is base
     public static final int board_width = 24 * base;//2400 is base
     public static final int board_height = 18 * base;//1800 is base
@@ -168,12 +168,11 @@ public class Backgammon extends Application {
 
        }
 
-       if(colmn.piece_counter()>0) {
-           colmn.getPiecelist().get(colmn.piece_counter() - 1).setMovable(false);
-       }
+
        piece.move();
        colmn.piece_adder(piece);
-       colmn.getPiecelist().get(colmn.piece_counter()-1).setMovable(true);
+
+
 
 
 
