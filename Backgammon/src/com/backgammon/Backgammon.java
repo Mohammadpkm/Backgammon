@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,7 +16,7 @@ import javafx.stage.Stage;
 
 public class Backgammon extends Application {
 
-    public static final int base = 100;//100 is base
+    public static final int base = 30;//100 is base
     public static final int size = 2 * base;//200 is base
     public static final int board_width = 24 * base;//2400 is base
     public static final int board_height = 18 * base;//1800 is base
@@ -29,25 +31,61 @@ public class Backgammon extends Application {
     public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
 
+    String playerOneName;
+    String playerTwoName;
 
-   /* public Parent top(){
+
+
+    public Parent top(){
 
         Pane root=new Pane();
-        dice1.setTranslateX(100);
-        dice1.setTranslateY(100);
 
-        dice2.setTranslateX(100);
-        dice2.setTranslateY(200);
+        Button playerOne = new Button("Player 1");
 
-        root.getChildren().addAll(dice1,dice2);
-        //root.setMinSize(1000,450);
+
+
+        playerOne.setTranslateX(board_width/8);
+        playerOne.setTranslateY(base);
+
+        Button playerTwo = new Button("Player 2");
+
+        playerTwo.setTranslateX(6*board_width/8);
+        playerTwo.setTranslateY(base);
+
+        Label playerOneLabel = new Label();
+        playerOneLabel.setText(playerOneName);
+
+        Label playerTwoLabel = new Label();
+        playerTwoLabel.setText(playerTwoName);
+
+        playerOneLabel.setTranslateX(board_width/8);
+        //      playerTwo.setTranslateY(base);
+
+        playerTwoLabel.setTranslateX(6*board_width/8);
+//        playerTwo.setTranslateY(base);
+
+        playerOne.setOnAction(event -> {
+            playerOneName = GetInput.display("Player 1", "Please Enter Your Name And Press OK.");
+            playerOneLabel.setText(playerOneName);
+        });
+
+        playerTwo.setOnAction(event -> {
+            playerTwoName = GetInput.display("Player 2", "Please Enter Your Name And Press OK.");
+            playerTwoLabel.setText(playerTwoName);
+        });
+
+
+
+
+        root.getChildren().addAll(playerOne,playerTwo,playerOneLabel,playerTwoLabel);
+        root.setMinHeight(2 * base);
 
 
         return root;
 
 
 
-    }*/
+    }
 
    public void turn_changer(){
 
@@ -60,6 +98,7 @@ public class Backgammon extends Application {
 
 
    }
+
 
 
 
@@ -337,10 +376,10 @@ public class Backgammon extends Application {
 
         BorderPane borderPane=new BorderPane();
         borderPane.setCenter(center());
-        //borderPane.setTop(top());
+        borderPane.setTop(top());
 
 
-        Scene scene=new Scene(borderPane,board_width,board_height);
+        Scene scene=new Scene(borderPane,board_width,board_height+size);
 
 
         stage.setTitle("Backgammon");
