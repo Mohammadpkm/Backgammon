@@ -1,22 +1,30 @@
 package com.backgammon;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
 
 import java.util.concurrent.TimeUnit;
 
 public class Backgammon extends Application {
 
-    public static final int base = 100;//100 is base
+    public static final int base = 30;//100 is base
     public static final int size = 2 * base;//200 is base
     public static final int board_width = 24 * base;//2400 is base
     public static final int board_height = 18 * base;//1800 is base
@@ -35,25 +43,95 @@ public class Backgammon extends Application {
     public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
 
+    //String playerOneName;
+    //String playerTwoName;
 
-   /* public Parent top(){
+    private Label playerOneLabel;
+    private Label playerTwoLabel;
+    private Label playersTurnIndicator;
+
+
+    public Parent top(){
 
         Pane root=new Pane();
-        dice1.setTranslateX(100);
-        dice1.setTranslateY(100);
 
-        dice2.setTranslateX(100);
-        dice2.setTranslateY(200);
+        Button playerOne = new Button("Change Player 1 Name");
 
-        root.getChildren().addAll(dice1,dice2);
-        //root.setMinSize(1000,450);
+        playerOne.setTranslateX(board_width/8);
+        playerOne.setTranslateY(base);
+
+        Button playerTwo = new Button("Change Player 2 Name");
+
+        playerTwo.setTranslateX(6*board_width/8);
+        playerTwo.setTranslateY(base);
+
+        this.playerOneLabel = new Label("Player 1");
+        playerOneLabel.setFont(new Font(0.7*base));
+        playerOneLabel.setTextFill(Color.MAROON);
+
+        this.playerTwoLabel = new Label("Player 2");
+        playerTwoLabel.setFont(new Font(0.7*base));
+        playerTwoLabel.setTextFill(Color.CHOCOLATE);
+
+        this.playersTurnIndicator = new Label();
+        playersTurnIndicator.setFont(new Font(base));
+
+
+
+        playerOneLabel.setTranslateX(board_width/8);
+        //      playerTwo.setTranslateY(base);
+
+        playerTwoLabel.setTranslateX(6*board_width/8);
+//        playerTwo.setTranslateY(base);
+
+        playersTurnIndicator.setMinWidth(board_width);
+        playersTurnIndicator.setAlignment(Pos.CENTER);
+
+//        playerOne.setOnAction(event -> {
+//            playerOneName = GetInput.display("Player 1", "Please Enter Your Name And Press OK.");
+//            playerOneLabel.setText(playerOneName);
+//        });
+//
+//        playerTwo.setOnAction(event -> {
+//            playerTwoName = GetInput.display("Player 2", "Please Enter Your Name And Press OK.");
+//            playerTwoLabel.setText(playerTwoName);
+//        });
+        playerOne.setOnAction(event -> {
+            InputTextDialog(playerOneLabel.getText(), "Please Enter Your Name And Press OK.", playerOneLabel);
+            //playerOneLabel.setText(playerOneName);
+        });
+
+        playerTwo.setOnAction(event -> {
+            InputTextDialog(playerTwoLabel.getText(), "Please Enter Your Name And Press OK.", playerTwoLabel);
+            //playerTwoLabel.setText(playerTwoName);
+        });
+
+
+
+
+        root.getChildren().addAll(playerOne,playerTwo,playerOneLabel,playerTwoLabel,playersTurnIndicator);
+        root.setMinHeight(2 * base);
 
 
         return root;
 
 
 
-    }*/
+    }
+
+    private void InputTextDialog(String title, String message, Label label){
+        TextInputDialog dialog = new TextInputDialog(title);
+        dialog.setTitle(title);
+        dialog.setHeaderText(message);
+        dialog.setContentText("Name: ");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            label.setText(name);
+        });
+
+    }
 
    public void seting_dice_number(){
 
@@ -103,6 +181,11 @@ public class Backgammon extends Application {
    public void turn_changer(){
 
        turn_flag=turn_flag*(-1);
+       if (turn_flag == 1)
+           playersTurnIndicator.setText(playerOneLabel.getText());
+       else
+           playersTurnIndicator.setText(playerTwoLabel.getText());
+
 
    }
 
@@ -206,6 +289,7 @@ public class Backgammon extends Application {
 
 
    }
+
 
 
 
@@ -485,11 +569,11 @@ public class Backgammon extends Application {
     public void start(Stage stage) throws Exception {
 
         BorderPane borderPane=new BorderPane();
+        borderPane.setTop(top());
         borderPane.setCenter(center());
-        //borderPane.setTop(top());
 
 
-        Scene scene=new Scene(borderPane,board_width,board_height);
+        Scene scene=new Scene(borderPane,board_width,board_height+size);
 
 
         stage.setTitle("Backgammon");
