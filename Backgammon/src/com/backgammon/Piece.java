@@ -14,13 +14,26 @@ public class Piece extends StackPane {
 
 
     Piecetype type;
-
-
     public Piecetype getType(){
 
         return type;
 
     }
+
+
+
+
+    boolean movable=false;
+
+    public boolean isMovable() {
+        return movable;
+    }
+
+    public void setMovable(boolean movable) {
+        this.movable = movable;
+    }
+
+
 
 
     double oldx,oldy;
@@ -68,13 +81,16 @@ public class Piece extends StackPane {
         getChildren().addAll(ground,piece);
 
 
+
         setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-                mousex = mouseEvent.getSceneX();
-                mousey = mouseEvent.getSceneY();
+                if(movable) {
+                    mousex = mouseEvent.getSceneX();
+                    mousey = mouseEvent.getSceneY();
 
+                }
             }
         });
 
@@ -82,7 +98,11 @@ public class Piece extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-                relocate(mouseEvent.getSceneX()-mousex+oldx,mouseEvent.getSceneY()-mousey+oldy);//+Backgammon.size);
+                if(movable) {
+
+                    relocate(mouseEvent.getSceneX() - mousex + oldx, mouseEvent.getSceneY() - mousey + oldy);//+Backgammon.size);
+
+                }
 
             }
         });

@@ -168,30 +168,37 @@ public class Backgammon extends Application {
 
        }
 
+       if(colmn.piece_counter()>0) {
+           colmn.getPiecelist().get(colmn.piece_counter() - 1).setMovable(false);
+       }
        piece.move();
-       colmn.piecegroup.getChildren().add(piece);
+       colmn.piece_adder(piece);
+       colmn.getPiecelist().get(colmn.piece_counter()-1).setMovable(true);
+
 
 
        piece.setOnMouseReleased(new EventHandler<MouseEvent>() {
                                @Override
                               public void handle(MouseEvent mouseEvent) {
 
-                                   colmn.remove_piece();
-                                   piece_adder(colmn_finder(mouseEvent.getSceneX(),mouseEvent.getSceneY()),piecetype);
+                                   if(piece.isMovable()) {
+                                       colmn.remove_piece();
+                                       piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
 
-                                   if(incorrect_place_flag){
+                                       if (incorrect_place_flag) {
 
-                                       colmn_finder(mouseEvent.getSceneX(),mouseEvent.getSceneY()).remove_piece();
-                                       piece_adder(colmn,piecetype);
+                                           colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
+                                           piece_adder(colmn, piecetype);
 
+
+                                       }
+
+
+                                       piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
+                                       piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
+                                       piece.move();
 
                                    }
-
-
-
-                                  piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
-                                  piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
-                                  piece.move();
                               }
 
                           }

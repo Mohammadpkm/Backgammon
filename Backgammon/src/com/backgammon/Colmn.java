@@ -3,16 +3,34 @@ package com.backgammon;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 
+import java.util.LinkedList;
+
 public class Colmn extends Rectangle {
 
     public Group piecegroup = new Group();
-    int x=0;
-    int y=0;
+
+    public LinkedList<Piece> piecelist=new LinkedList<Piece>();
+
+    public void piece_adder(Piece piece){
+
+        piecelist.add(piece);
+        piecegroup.getChildren().add(piece);
+
+
+    }
+
+
+    public LinkedList<Piece> getPiecelist() {
+        return piecelist;
+    }
 
     public Group getPiecegroup() {
         return piecegroup;
     }
 
+
+    int x=0;
+    int y=0;
     public int getx() {
         return x;
     }
@@ -21,16 +39,18 @@ public class Colmn extends Rectangle {
         return y;
     }
 
+
     public int piece_counter() {
 
 
-        return piecegroup.getChildren().size();
+        return piecelist.size();
 
     }
 
     public void remove_piece() {
 
         piecegroup.getChildren().remove(piece_counter() - 1);
+        piecelist.removeLast();
 
     }
 
