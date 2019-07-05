@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class Backgammon extends Application {
 
-    public static final int base = 35;//100 is base
+    public static final int base = 60;//100 is base
     public static final int size = 2 * base;//200 is base
     public static final int board_width = 24 * base;//2400 is base
     public static final int board_height = 18 * base;//1800 is base
@@ -27,11 +27,8 @@ public class Backgammon extends Application {
     public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
 
-    int cntr = 0;
 
-
-
-    /* public Parent top(){
+   /* public Parent top(){
 
         Pane root=new Pane();
         dice1.setTranslateX(100);
@@ -179,17 +176,8 @@ public class Backgammon extends Application {
                                @Override
                               public void handle(MouseEvent mouseEvent) {
 
-                                   colmn.piecegroup.getChildren().remove(piece);
-                                   //colmn.remove_piece();
-                                   piece_adder(colmn_finder(mouseEvent.getSceneX (),mouseEvent.getSceneY()),piecetype);
-
-                                   cntr = colmn.piece_counter();
-                                   for(int i = 0; i < cntr; i++)
-                                       colmn.remove_piece();
-                                   for(int i = 0; i < cntr; i++)
-                                       piece_adder(colmn, piecetype);
-
-
+                                   colmn.remove_piece();
+                                   piece_adder(colmn_finder(mouseEvent.getSceneX(),mouseEvent.getSceneY()),piecetype);
 
                                    if(incorrect_place_flag){
 
@@ -201,10 +189,9 @@ public class Backgammon extends Application {
 
 
 
-
-//                                  piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
-//                                  piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
-//                                  piece.move();
+                                  piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
+                                  piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
+                                  piece.move();
                               }
 
                           }
