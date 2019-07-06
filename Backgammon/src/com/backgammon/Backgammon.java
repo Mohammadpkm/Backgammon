@@ -161,7 +161,7 @@ public class Backgammon extends Application {
     }
 
 
-    public Parent top(){
+    public Parent /*top*/bottem(){
 
         AnchorPane root=new AnchorPane();
 
@@ -731,7 +731,9 @@ public class Backgammon extends Application {
         startWindow();
 
         BorderPane borderPane=new BorderPane();
-        borderPane.setTop(top());
+        //borderPane.setTop(top());
+        borderPane.setBottom((bottem()));
+
         borderPane.setCenter(center());
 
 
