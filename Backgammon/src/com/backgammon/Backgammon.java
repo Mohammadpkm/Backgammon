@@ -4,12 +4,13 @@ import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.beans.value.*;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
@@ -60,12 +61,18 @@ public class Backgammon extends Application {
     private String playerOneName = "Player 1";
     private String playerTwoName = "Player 2";
 
+    private String availableColors[] = {"chocolate","maroon","gray","blue violate","silver","olive","pink","snow"};
+    private Color availableColorCode [] = {Color.CHOCOLATE, Color.MAROON, Color.GRAY, Color.BLUEVIOLET,
+            Color.SILVER, Color.OLIVE, Color.PINK, Color.SNOW};
+
+    static Color playerOneColor;
+    static Color playerTwoColor;
 
     private void startWindow(){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Settings");
-        window.setMinWidth(8 * base);
+        window.setMinWidth(15 * base);
         window.setMinHeight(8 * base);
 
         TextField playerOneDefault = new TextField(playerOneName);
@@ -95,10 +102,12 @@ public class Backgammon extends Application {
             }
         });
 
+        // create a choiceBox
+        ChoiceBox colorChoiceBoxOne = new ChoiceBox(FXCollections.observableArrayList(availableColors));
+        colorChoiceBoxOne.getSelectionModel().select(0);
 
-
-
-
+        ChoiceBox colorChoiceBoxTwo = new ChoiceBox(FXCollections.observableArrayList(availableColors));
+        colorChoiceBoxTwo.getSelectionModel().select(1);
 
 
 
@@ -111,15 +120,35 @@ public class Backgammon extends Application {
             size = 2 * base;
             board_width = 24 * base;
             board_height = 18 * base;
+
+            playerOneColor = availableColorCode[colorChoiceBoxOne.getSelectionModel().getSelectedIndex()];
+            playerTwoColor = availableColorCode[colorChoiceBoxTwo.getSelectionModel().getSelectedIndex()];
+
             window.close();
         });
 
 
 
 
-        VBox layout = new VBox();
-        layout.getChildren().addAll(playerOneDefault,playerTwoDefault,inputBase,startBtn);
+        GridPane layout = new GridPane();
+        //layout.getChildren().addAll(playerOneDefault,playerTwoDefault,inputBase,startBtn);
+        layout.add(new Label("Player 1 name: "),0,0,1,1);
+        layout.add(new Label("Player 2 name: "),0,1,1,1);
+        layout.add(new Label("Base size: "),0,2,1,1);
+
+
+        layout.add(playerOneDefault,1,0,1,1);
+        layout.add(playerTwoDefault,1,1,1,1);
+        layout.add(inputBase,1,2,1,1);
+        layout.add(startBtn,2,4,1,1);
+
+        layout.add(colorChoiceBoxOne,2,0,1,1);
+        layout.add(colorChoiceBoxTwo,2,1,1,1);
+
         layout.setAlignment(Pos.CENTER);
+
+        layout.setHgap(base/2);
+        layout.setVgap(base/2);
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
@@ -137,14 +166,14 @@ public class Backgammon extends Application {
         AnchorPane root=new AnchorPane();
 
         Button playerOne = new Button("Change Player 1 Name");
-        playerOne.setFont(new Font("Chiller",base/3));
+        playerOne.setFont(new Font(base/3));
 
         playerOne.setTranslateX(board_width/8);
         playerOne.setTranslateY(base);
         playerOne.setAlignment(Pos.BOTTOM_LEFT);
 
         Button playerTwo = new Button("Change Player 2 Name");
-        playerTwo.setFont(new Font("Chiller",base/3));
+        playerTwo.setFont(new Font(base/3));
 
 
         playerTwo.setTranslateX(6*board_width/8);
@@ -153,20 +182,20 @@ public class Backgammon extends Application {
 
 
         this.playerOneLabel = new Label(playerOneName);
-        playerOneLabel.setFont(new Font("Chiller",base));
-        playerOneLabel.setTextFill(Color.MAROON);
+        playerOneLabel.setFont(new Font(2*base/3));
+        playerOneLabel.setTextFill(playerOneColor);
         playerOneLabel.setMinHeight(base*1.5);
         playerOneLabel.setAlignment(Pos.TOP_LEFT);
 
 
         this.playerTwoLabel = new Label(playerTwoName);
-        playerTwoLabel.setFont(new Font("Chiller",base));
-        playerTwoLabel.setTextFill(Color.CHOCOLATE);
+        playerTwoLabel.setFont(new Font(2*base/3));
+        playerTwoLabel.setTextFill(playerTwoColor);
         playerTwoLabel.setMinHeight(base*1.5);
         playerTwoLabel.setAlignment(Pos.TOP_RIGHT);
 
         this.playersTurnIndicator = new Label();
-        playersTurnIndicator.setFont(new Font("Chiller",base));
+        playersTurnIndicator.setFont(new Font(base));
 
 
 

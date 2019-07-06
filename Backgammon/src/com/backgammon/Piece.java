@@ -86,7 +86,7 @@ public class Piece extends StackPane {
         ground.setStrokeWidth(Backgammon.size*.03);
 
 
-        piece.setFill(type==Piecetype.RED?Color.MAROON:Color.CHOCOLATE);
+        piece.setFill(type==Piecetype.RED?Backgammon.playerOneColor:Backgammon.playerTwoColor);
         piece.setStroke(Color.BLACK);
         piece.setStrokeWidth(Backgammon.size*.03);
 
