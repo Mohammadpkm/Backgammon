@@ -716,28 +716,28 @@ public class Backgammon extends Application {
        if((colmn.x<6)&&(colmn.y==0)){
 
            piece.setOldx(.1359*(Backgammon.board_width/2)+.1239*colmn.x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4));
-           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
        if((colmn.x>=6)&&(colmn.y==0)){
 
            piece.setOldx(.5612*(Backgammon.board_width)+.1239*(colmn.x-6)*(Backgammon.board_width/2));
-           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
        if((colmn.x<6)&&(colmn.y==1)){
 
            piece.setOldx(.1359*(Backgammon.board_width/2)+.1239*colmn.x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4));
-           piece.setOldy(.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy(.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
        if((colmn.x>=6)&&(colmn.y==1)){
 
            piece.setOldx(.5612*(Backgammon.board_width)+.1239*(colmn.x-6)*(Backgammon.board_width/2));
-           piece.setOldy( .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy( .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
