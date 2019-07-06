@@ -358,7 +358,7 @@ public class Backgammon extends Application {
         if(colmn_or_piece){
 
             if (runing_flag) {
-                if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+                if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
 
                     triangle_maker(x,y);
                 }
