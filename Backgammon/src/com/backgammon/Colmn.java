@@ -2,6 +2,7 @@ package com.backgammon;
 
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.TriangleMesh;
 
 import java.util.LinkedList;
 
@@ -23,6 +24,16 @@ public class Colmn extends Rectangle {
 
     int x=0;
     int y=0;
+    boolean permition_flag=false;
+
+    public boolean isPermition_flag() {
+        return permition_flag;
+    }
+
+    public void setPermition_flag(boolean permition_flag) {
+        this.permition_flag = permition_flag;
+    }
+
 
     public int getx() {
         return x;
@@ -31,7 +42,6 @@ public class Colmn extends Rectangle {
     public int gety() {
         return y;
     }
-
 
     public int piece_counter() {
 
@@ -65,6 +75,8 @@ public class Colmn extends Rectangle {
 
 
     }
+
+
 
 
     public Colmn(int x_i,int y_i){

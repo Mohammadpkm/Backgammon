@@ -21,6 +21,7 @@ import javafx.scene.layout.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.stage.*;
 import javafx.scene.text.Font;
 
@@ -40,6 +41,7 @@ public class Backgammon extends Application {
     Player player1=new Player(0,Piecetype.RED,0);
     Player player2=new Player(0,Piecetype.GRAY,0);
     boolean runing_flag=false;
+    Polygon triangle;
 
 
 
@@ -50,6 +52,7 @@ public class Backgammon extends Application {
 
     public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
+    public Group highlight_group=new Group();
 
     //String playerOneName;
     //String playerTwoName;
@@ -297,7 +300,9 @@ public class Backgammon extends Application {
 
 
    }
-    public void highlight_detect2(int i,int j,int temp){
+
+
+    public void highlight_detect2(int i,int j,int temp,boolean colmn_or_piece){
         int x=0;
         int y=0;
         runing_flag=false;
@@ -320,17 +325,30 @@ public class Backgammon extends Application {
             runing_flag = true;
         }
 
-        if (runing_flag) {
-            if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
+        if(!colmn_or_piece) {
+            if (runing_flag) {
+                if ((board[x][y].piece_counter() == 0) || (board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
 
-                board[i][j].piecelist.getLast().sethighlight();
+                    board[i][j].piecelist.getLast().sethighlight();
+                }
             }
+            runing_flag = false;
         }
-        runing_flag=false;
+
+        if(colmn_or_piece){
+
+            if (runing_flag) {
+                if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+
+                    triangle_maker(x,y);
+                }
+            }
+
+        }
     }
 
 
-   public void highlight_detect1(int i,int j,int temp){
+   public void highlight_detect1(int i,int j,int temp,boolean colmn_or_piece){
         int x=0;
         int y=0;
         runing_flag=false;
@@ -353,13 +371,29 @@ public class Backgammon extends Application {
            runing_flag = true;
        }
 
-       if (runing_flag) {
-           if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+       if(!colmn_or_piece){
+               if (runing_flag) {
+                   if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
 
-               board[i][j].piecelist.getLast().sethighlight();
-           }
+                       board[i][j].piecelist.getLast().sethighlight();
+                   }
+               }
+               runing_flag=false;
        }
-       runing_flag=false;
+
+       if(colmn_or_piece){
+
+           if (runing_flag) {
+               if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+
+                   triangle_maker(x,y);
+               }
+           }
+
+
+
+       }
+
    }
 
    public void piece_highlight(){
@@ -376,21 +410,19 @@ public class Backgammon extends Application {
 
                        if (first_dice_flag) {
                            temp = first_dice;
-                           highlight_detect1(i, j, temp);
-                           highlight_detect1(i, j, temp);
+                           highlight_detect1(i, j, temp,false);
                        }
 
                        if (second_dice_flag) {
                            temp = second_dice;
-                           highlight_detect1(i, j, temp);
-                           highlight_detect1(i, j, temp);
+                           highlight_detect1(i, j, temp,false);
+
                        }
 
                          /*  if(first_dice_flag&&second_dice_flag){
 
                                temp=first_dice+second_dice;
-                               highlight_detect1(i,j,temp);
-                               highlight_detect1(i,j,temp);
+                               highlight_detect1(i,j,temp,false);
 
 
                            }*/
@@ -404,25 +436,22 @@ public class Backgammon extends Application {
                        if (first_dice_flag) {
 
                            temp = first_dice;
-                           highlight_detect2(i, j, temp);
-                           highlight_detect2(i, j, temp);
+                           highlight_detect2(i, j, temp,false);
 
                        }
 
                        if (second_dice_flag) {
 
                            temp = second_dice;
-                           highlight_detect2(i, j, temp);
-                           highlight_detect2(i, j, temp);
-
+                           highlight_detect2(i, j, temp,false);
 
                        }
 
                          /*  if(first_dice_flag&&second_dice_flag){
 
-                               temp=first_dice+second_dice;
-                               highlight_detect1(i,j,temp);
-                               highlight_detect1(i,j,temp);
+                               first_dice+second_dice;
+                               highlight_detect2(i,j,temp,false);
+
 
 
                            }*/
@@ -451,6 +480,123 @@ public class Backgammon extends Application {
        }
 
    }
+
+
+   public void colmn_highlight(double mouse_x,double mouse_y){
+
+
+       if (colmn_finder(mouse_x,mouse_y).piecelist.getLast().getType() == player1.piecetype && (player1.piecetype.turn == turn_flag)) {
+
+           if (first_dice_flag) {
+
+               highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), first_dice,true);
+
+           }
+
+           if (second_dice_flag) {
+
+               highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), second_dice,true);
+
+           }
+
+        /*if(first_dice_flag&&second_dice_flag){
+
+           highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), first_dice+second_dice,true);
+
+
+          }*/
+
+
+       }
+
+
+       if (colmn_finder(mouse_x,mouse_y).piecelist.getLast().getType() == player2.piecetype && (player2.piecetype.turn == turn_flag)) {
+
+
+           if (first_dice_flag) {
+
+               highlight_detect2(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), first_dice,true);
+
+           }
+
+           if (second_dice_flag) {
+
+               highlight_detect2(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), second_dice,true);
+
+           }
+
+         /*if(first_dice_flag&&second_dice_flag){
+
+            highlight_detect2(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(),first_dice+second_dice,true);
+
+         }*/
+
+       }
+
+   }
+
+   public void colmn_highlight_remove(){
+
+        int temp=highlight_group.getChildren().size();
+
+        for(int i=0;i<temp;i++ ){
+
+           highlight_group.getChildren().remove(highlight_group.getChildren().size()-1);
+
+       }
+   }
+
+
+   public void triangle_maker(int x,int y){
+
+
+       triangle = new Polygon();
+
+
+
+       if((x<6)&&(y==0)){
+
+           triangle.getPoints().addAll(new Double[]{
+                   .1359*(Backgammon.board_width/2)+.1239*x*(Backgammon.board_width/2),.1349*(Backgammon.board_height/2),
+                   .1359*(Backgammon.board_width/2)+.1239*(x+1)*(Backgammon.board_width/2),.1349*(Backgammon.board_height/2),
+                   .1359*(Backgammon.board_width/2)+.1239*(x+.5)*(Backgammon.board_width/2), .1349*(Backgammon.board_height/2)+(.7936*(Backgammon.board_height/2))/2});
+
+       }
+
+       if((x>=6)&&(y==0)){
+
+           triangle.getPoints().addAll(new Double[]{
+                   .5612*(Backgammon.board_width)+.1239*(x-6)*(Backgammon.board_width/2),.1349*(Backgammon.board_height/2),
+                   .5612*(Backgammon.board_width)+.1239*(x-5)*(Backgammon.board_width/2),.1349*(Backgammon.board_height/2),
+                   .5612*(Backgammon.board_width)+.1239*(x-5.5)*(Backgammon.board_width/2),.1349*(Backgammon.board_height/2)+(.7936*(Backgammon.board_height/2))/2});
+
+       }
+
+       if((x<6)&&(y==1)){
+
+           triangle.getPoints().addAll(new Double[]{
+                   .1359*(Backgammon.board_width/2)+.1239*x*(Backgammon.board_width/2),.5379*Backgammon.board_height+(.7936*(Backgammon.board_height/2)),
+                   .1359*(Backgammon.board_width/2)+.1239*(x+1)*(Backgammon.board_width/2),.5379*Backgammon.board_height+(.7936*(Backgammon.board_height/2)),
+                   .1359*(Backgammon.board_width/2)+.1239*(x+.5)*(Backgammon.board_width/2),.5379*Backgammon.board_height+(.7936*(Backgammon.board_height/2))-(.7936*(Backgammon.board_height/2))/2});
+
+       }
+
+       if((x>=6)&&(y==1)){
+
+           triangle.getPoints().addAll(new Double[]{
+                   .5612*(Backgammon.board_width)+.1239*(x-6)*(Backgammon.board_width/2),.5379*Backgammon.board_height+(.7936*(Backgammon.board_height/2)),
+                   .5612*(Backgammon.board_width)+.1239*(x-5)*(Backgammon.board_width/2),.5379*Backgammon.board_height+(.7936*(Backgammon.board_height/2)),
+                   .5612*(Backgammon.board_width)+.1239*(x-5.5)*(Backgammon.board_width/2),.5379*Backgammon.board_height+(.7936*(Backgammon.board_height/2))-(.7936*(Backgammon.board_height/2))/2});
+
+       }
+
+       triangle.setFill(Color.YELLOW);
+       triangle.setOpacity(.5);
+
+       highlight_group.getChildren().add(triangle);
+
+   }
+
 
 
    public Colmn colmn_finder(double x,double y){
@@ -589,6 +735,7 @@ public class Backgammon extends Application {
                    piece.mousex = mouseEvent.getSceneX();
                    piece.mousey = mouseEvent.getSceneY();
                    piece_highlight_remover();
+                   colmn_highlight(mouseEvent.getSceneX(),mouseEvent.getSceneY());
 
 
                }
@@ -616,6 +763,7 @@ public class Backgammon extends Application {
                                        colmn.remove_piece();
 
                                        piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
+                                       colmn_highlight_remove();
 
                                        if (incorrect_place_flag) {
 
@@ -629,6 +777,8 @@ public class Backgammon extends Application {
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
                                        piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
                                        piece.move();
+
+
 
                                    }
                               }
@@ -712,7 +862,7 @@ public class Backgammon extends Application {
 
 
 
-        stackPane.getChildren().addAll(iv,piecegroup,dice1,dice2);
+        stackPane.getChildren().addAll(iv,piecegroup,dice1,dice2,highlight_group);
         //stackPane.setMinSize(1000,450);
 
 
