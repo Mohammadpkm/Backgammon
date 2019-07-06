@@ -41,12 +41,16 @@ public class Backgammon extends Application {
     Player player2=new Player(0,Piecetype.GRAY,0);
     boolean runing_flag=false;
 
+    Pane stackPane;
 
 
     //public Dice dice1=new Dice();
     //public Dice dice2=new Dice();
     public  Dice dice1;
     public  Dice dice2;
+    public  Dice dice3;
+    public  Dice dice4;
+
 
     public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
@@ -152,10 +156,6 @@ public class Backgammon extends Application {
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
-
-
-
-
 
         window.showAndWait();
     }
@@ -264,6 +264,16 @@ public class Backgammon extends Application {
 
                dice1.roll();
                dice2.roll();
+               if(dice1.dice_number == dice2.dice_number){
+                   dice3.valueProperty.set(dice1.dice_number);
+                   dice4.valueProperty.set(dice1.dice_number);
+                   stackPane.getChildren().removeAll(dice3,dice4);
+                   stackPane.getChildren().addAll(dice3,dice4);
+
+               }
+               else{
+                   stackPane.getChildren().removeAll(dice3,dice4);
+               }
                seting_dice_number();
                piece_highlight();
 
@@ -277,6 +287,16 @@ public class Backgammon extends Application {
 
                dice1.roll();
                dice2.roll();
+               if(dice1.dice_number == dice2.dice_number){
+                   dice3.valueProperty.set(dice1.dice_number);
+                   dice4.valueProperty.set(dice1.dice_number);
+                   stackPane.getChildren().removeAll(dice3,dice4);
+                   stackPane.getChildren().addAll(dice3,dice4);
+
+               }
+               else{
+                   stackPane.getChildren().removeAll(dice3,dice4);
+               }
                seting_dice_number();
                piece_highlight();
 
@@ -647,7 +667,7 @@ public class Backgammon extends Application {
     public Parent center(){
 
         //uploading image
-        Pane stackPane=new Pane();
+        stackPane=new Pane();
         Image background=new Image("file:d8bb7315f541050ceb54ac22f8f88231.jpg");
         ImageView iv=new ImageView();
         iv.setImage(background);
@@ -700,8 +720,8 @@ public class Backgammon extends Application {
 
         dice1 = new Dice();
         dice2 = new Dice();
-
-        dicing();
+        dice3 = new Dice();
+        dice4 = new Dice();
 
         dice1.setTranslateX(board_width/8);
         dice1.setTranslateY(board_height/2);
@@ -709,8 +729,13 @@ public class Backgammon extends Application {
         dice2.setTranslateX(3*board_width/8 - base);
         dice2.setTranslateY(board_height/2);
 
+        dice3.setTranslateX(7*board_width/8 - base);
+        dice3.setTranslateY(board_height/2);
 
+        dice4.setTranslateX(5*board_width/8);
+        dice4.setTranslateY(board_height/2);
 
+        dicing();
 
         stackPane.getChildren().addAll(iv,piecegroup,dice1,dice2);
         //stackPane.setMinSize(1000,450);

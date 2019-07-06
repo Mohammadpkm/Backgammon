@@ -24,6 +24,11 @@ public class Dice extends StackPane {
         return dice_number;
 
     }
+    public void setDice_number(int number) {
+
+        dice_number = number;
+
+    }
 
     public final SimpleIntegerProperty valueProperty=new SimpleIntegerProperty();
 
