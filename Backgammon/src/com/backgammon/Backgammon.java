@@ -3,6 +3,7 @@ package com.backgammon;
 import java.util.Optional;
 
 import javafx.application.Application;
+import javafx.beans.value.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -10,24 +11,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javafx.stage.*;
 import javafx.scene.text.Font;
 
 
 public class Backgammon extends Application {
 
-    public static final int base = 30;//100 is base
-    public static final int size = 2 * base;//200 is base
-    public static final int board_width = 24 * base;//2400 is base
-    public static final int board_height = 18 * base;//1800 is base
+    public static int base = 30;//100 is base
+    public static int size = 2 * base;//200 is base
+    public static int board_width = 24 * base;//2400 is base
+    public static int board_height = 18 * base;//1800 is base
     boolean incorrect_place_flag=true;
     public  int turn_flag=1;
     int first_dice;
@@ -40,8 +42,11 @@ public class Backgammon extends Application {
 
 
 
-    public Dice dice1=new Dice();
-    public Dice dice2=new Dice();
+    //public Dice dice1=new Dice();
+    //public Dice dice2=new Dice();
+    public  Dice dice1;
+    public  Dice dice2;
+
     public Colmn board[][] = new Colmn[12][2];
     public Group piecegroup = new Group();
 
@@ -51,6 +56,80 @@ public class Backgammon extends Application {
     private Label playerOneLabel;
     private Label playerTwoLabel;
     private Label playersTurnIndicator;
+
+    private String playerOneName = "Player 1";
+    private String playerTwoName = "Player 2";
+
+
+    private void startWindow(){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Settings");
+        window.setMinWidth(8 * base);
+        window.setMinHeight(8 * base);
+
+        TextField playerOneDefault = new TextField(playerOneName);
+        playerOneDefault.setPromptText("Enter Player 1 Name");
+        playerOneDefault.setMaxWidth(6 * base);
+        playerOneDefault.setAlignment(Pos.CENTER);
+        //playerOneDefault.
+
+        TextField playerTwoDefault = new TextField(playerTwoName);
+        playerTwoDefault.setMaxWidth(6 * base);
+        playerTwoDefault.setPromptText("Enter Player 2 Name");
+        playerTwoDefault.setAlignment(Pos.CENTER);
+
+        TextField inputBase = new TextField(String.valueOf(base));
+        inputBase.setMaxWidth(6 * base);
+        inputBase.setPromptText("Enter Base size up to 100");
+        inputBase.setAlignment(Pos.CENTER);
+
+        // force the field to be numeric only
+        inputBase.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    inputBase.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+        Button startBtn = new Button("Start");
+
+        startBtn.setOnAction(event -> {
+            playerOneName = playerOneDefault.getText();
+            playerTwoName = playerTwoDefault.getText();
+            base = Integer.valueOf(inputBase.getText());
+            size = 2 * base;
+            board_width = 24 * base;
+            board_height = 18 * base;
+            window.close();
+        });
+
+
+
+
+        VBox layout = new VBox();
+        layout.getChildren().addAll(playerOneDefault,playerTwoDefault,inputBase,startBtn);
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+
+
+
+
+
+        window.showAndWait();
+    }
 
 
     public Parent top(){
@@ -73,14 +152,14 @@ public class Backgammon extends Application {
         playerTwo.setAlignment(Pos.BOTTOM_RIGHT);
 
 
-        this.playerOneLabel = new Label("Player 1");
+        this.playerOneLabel = new Label(playerOneName);
         playerOneLabel.setFont(new Font("Chiller",base));
         playerOneLabel.setTextFill(Color.MAROON);
         playerOneLabel.setMinHeight(base*1.5);
         playerOneLabel.setAlignment(Pos.TOP_LEFT);
 
 
-        this.playerTwoLabel = new Label("Player 2");
+        this.playerTwoLabel = new Label(playerTwoName);
         playerTwoLabel.setFont(new Font("Chiller",base));
         playerTwoLabel.setTextFill(Color.CHOCOLATE);
         playerTwoLabel.setMinHeight(base*1.5);
@@ -590,6 +669,8 @@ public class Backgammon extends Application {
         }
 
 
+        dice1 = new Dice();
+        dice2 = new Dice();
 
         dicing();
 
@@ -617,6 +698,8 @@ public class Backgammon extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        startWindow();
 
         BorderPane borderPane=new BorderPane();
         borderPane.setTop(top());
