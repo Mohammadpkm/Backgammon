@@ -58,22 +58,21 @@ public class Backgammon extends Application {
     public Group piecegroup = new Group();
     public Group highlight_group=new Group();
 
-    //String playerOneName;
-    //String playerTwoName;
-
-    private Label playerOneLabel;
-    private Label playerTwoLabel;
-    private Label playersTurnIndicator;
-
     private String playerOneName = "Player 1";
     private String playerTwoName = "Player 2";
+
+    private Label playerOneLabel = new Label(playerOneName);
+    private Label playerTwoLabel = new Label(playerTwoName);
+    private Label playersTurnIndicator;
 
     private String availableColors[] = {"chocolate","maroon","gray","blue violate","silver","olive","pink","snow"};
     private Color availableColorCode [] = {Color.CHOCOLATE, Color.MAROON, Color.GRAY, Color.BLUEVIOLET,
             Color.SILVER, Color.OLIVE, Color.PINK, Color.SNOW};
 
-    static Color playerOneColor;
-    static Color playerTwoColor;
+    static Color playerOneColor = Color.CHOCOLATE;
+    static Color playerTwoColor = Color.MAROON;
+
+    private Colmn targetColmn;
 
     private void startWindow(){
         Stage window = new Stage();
@@ -197,7 +196,7 @@ public class Backgammon extends Application {
         playerTwoLabel.setMinHeight(base*1.5);
         playerTwoLabel.setAlignment(Pos.TOP_RIGHT);
 
-        this.playersTurnIndicator = new Label();
+        this.playersTurnIndicator = new Label(playerOneLabel.getText());
         playersTurnIndicator.setFont(new Font(base));
 
 
@@ -347,7 +346,7 @@ public class Backgammon extends Application {
 
         if(!colmn_or_piece) {
             if (runing_flag) {
-                if ((board[x][y].piece_counter() == 0) || (board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
+                if ((board[x][y].piece_counter() < 2) || (board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
 
                     board[i][j].piecelist.getLast().sethighlight();
                 }
@@ -358,10 +357,11 @@ public class Backgammon extends Application {
         if(colmn_or_piece){
 
             if (runing_flag) {
-                if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
+                if ((board[x][y].piece_counter() < 2)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
 
-                    board[x][y].setPermition_flag(true);
                     triangle_maker(x,y);
+                    board[x][y].setPermission_flag(true);
+
                 }
             }
 
@@ -394,7 +394,7 @@ public class Backgammon extends Application {
 
        if(!colmn_or_piece){
                if (runing_flag) {
-                   if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+                   if ((board[x][y].piece_counter() < 2)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
 
                        board[i][j].piecelist.getLast().sethighlight();
                    }
@@ -405,10 +405,11 @@ public class Backgammon extends Application {
        if(colmn_or_piece){
 
            if (runing_flag) {
-               if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
+               if ((board[x][y].piece_counter() < 2)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
 
-                   board[x][y].setPermition_flag(true);
                    triangle_maker(x,y);
+
+                   board[x][y].setPermission_flag(true);
                }
            }
 
@@ -506,18 +507,19 @@ public class Backgammon extends Application {
 
    public void colmn_highlight(double mouse_x,double mouse_y){
 
+        targetColmn =colmn_finder(mouse_x,mouse_y);
 
-       if (colmn_finder(mouse_x,mouse_y).piecelist.getLast().getType() == player1.piecetype && (player1.piecetype.turn == turn_flag)) {
+       if (targetColmn.piecelist.getLast().getType() == player1.piecetype && (player1.piecetype.turn == turn_flag)) {
 
            if (first_dice_flag) {
 
-               highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), first_dice,true);
-
+               highlight_detect1(targetColmn.getx(), targetColmn.gety(), first_dice,true);
+               //targetColmn.permission_flag = runing_flag;
            }
 
            if (second_dice_flag) {
 
-               highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), second_dice,true);
+               highlight_detect1(targetColmn.getx(),targetColmn.gety(), second_dice,true);
 
            }
 
@@ -619,22 +621,6 @@ public class Backgammon extends Application {
 
    }
 
-   public void permition_off(){
-
-
-        for(int j=0;j<2;j++) {
-            for (int i = 0; i < 12; i++) {
-
-
-                board[i][j].setPermition_flag(false);
-
-
-            }
-        }
-
-
-
-   }
 
 
    public Colmn colmn_finder(double x,double y){
@@ -734,35 +720,41 @@ public class Backgammon extends Application {
        if((colmn.x<6)&&(colmn.y==0)){
 
            piece.setOldx(.1359*(Backgammon.board_width/2)+.1239*colmn.x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4));
-           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
        if((colmn.x>=6)&&(colmn.y==0)){
 
            piece.setOldx(.5612*(Backgammon.board_width)+.1239*(colmn.x-6)*(Backgammon.board_width/2));
-           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
        if((colmn.x<6)&&(colmn.y==1)){
 
            piece.setOldx(.1359*(Backgammon.board_width/2)+.1239*colmn.x*(Backgammon.board_width/2)+.021*(Backgammon.board_width/4));
-           piece.setOldy(.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy(.5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
        if((colmn.x>=6)&&(colmn.y==1)){
 
            piece.setOldx(.5612*(Backgammon.board_width)+.1239*(colmn.x-6)*(Backgammon.board_width/2));
-           piece.setOldy( .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/2);
+           piece.setOldy( .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/3);
 
        }
 
 
        piece.move();
        colmn.piece_adder(piece);
-
+//       if(first_dice_flag || second_dice_flag){
+//
+//       }else{
+//           turn_changer();
+//           first_dice_flag = true;
+//           second_dice_flag = true;
+//       }
 
 
        piece.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -797,40 +789,55 @@ public class Backgammon extends Application {
                                @Override
                               public void handle(MouseEvent mouseEvent) {
 
+                                   targetColmn = colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+
                                    if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                                        colmn.remove_piece();
 
-
-                                       if(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).isPermition_flag()) {
-
-                                           piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
-                                           turn_changer();
-
-                                       }
-
-                                       if(!colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).isPermition_flag()&&!incorrect_place_flag) {
-
-
-                                           System.out.println("hi");
-                                          // colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
-                                           piece_adder(colmn, piecetype);
-
-
-
-                                       }
-
-
-                                       if (incorrect_place_flag) {
-
-                                           //colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
-                                           piece_adder(colmn, piecetype);
-
-                                       }
-
-
-                                       permition_off();
+                                       piece_adder(targetColmn, piecetype);
                                        colmn_highlight_remove();
-                                       if(piecetype.turn==turn_flag)piece_highlight();
+                                       if(targetColmn.getPiecelist().getLast().getType() != piece.getType()){
+
+                                       }
+
+                                       if (incorrect_place_flag || (!targetColmn.isPermission_flag())) {
+
+                                           targetColmn.remove_piece();
+                                           piece_adder(colmn, piecetype);
+
+
+                                       }else if(targetColmn.y == colmn.y){
+                                            if (first_dice_flag && (first_dice == Math.abs(targetColmn.x - colmn.x))) {
+                                                first_dice_flag = false;
+                                                dice1.fadeOut();
+
+                                            }
+                                            else if (second_dice_flag && (second_dice == Math.abs(targetColmn.x - colmn.x))) {
+                                                second_dice_flag = false;
+                                                dice2.fadeOut();
+                                            }
+                                       }else {
+                                           if (first_dice_flag && first_dice == (targetColmn.x + colmn.x + 1)) {
+                                               first_dice_flag = false;
+                                               dice1.fadeOut();
+                                           }
+                                           else if (second_dice_flag && second_dice == (targetColmn.x + colmn.x + 1)) {
+                                               second_dice_flag = false;
+                                               dice2.fadeOut();
+                                           }
+                                       }
+
+                                       if(first_dice_flag || second_dice_flag){
+                                           piece_highlight();
+                                       }
+                                       else{
+                                           turn_changer();
+                                           first_dice_flag = true;
+                                           second_dice_flag = true;
+                                       }
+
+
+                                       targetColmn.setPermission_flag(false);
 
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
                                        piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
@@ -878,16 +885,9 @@ public class Backgammon extends Application {
 
 
         }
-
-        board[0][0].setPermition_flag(true);
-        board[0][1].setPermition_flag(true);
-        board[6][1].setPermition_flag(true);
-        board[6][0].setPermition_flag(true);
-        board[4][1].setPermition_flag(true);
-        board[4][0].setPermition_flag(true);
-        board[11][0].setPermition_flag(true);
-        board[11][1].setPermition_flag(true);
         for(int count=0;count<5;count++){
+
+
             piece_adder(board[0][0],Piecetype.RED);
             piece_adder(board[0][1],Piecetype.GRAY);
 
@@ -911,16 +911,6 @@ public class Backgammon extends Application {
             }
 
         }
-
-        board[0][0].setPermition_flag(false);
-        board[0][1].setPermition_flag(false);
-        board[6][1].setPermition_flag(false);
-        board[6][0].setPermition_flag(false);
-        board[4][1].setPermition_flag(false);
-        board[4][0].setPermition_flag(false);
-        board[11][0].setPermition_flag(false);
-        board[11][1].setPermition_flag(false);
-
 
 
         dice1 = new Dice();
