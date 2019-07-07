@@ -11,7 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -44,6 +44,8 @@ public class Backgammon extends Application {
     Polygon triangle;
 
     Pane stackPane;
+
+    Alert impossibleMove = new Alert(AlertType.NONE, "You can't move any pieces",ButtonType.OK);
 
 
     //public Dice dice1=new Dice();
@@ -426,6 +428,8 @@ public class Backgammon extends Application {
 
    }
 
+
+
    public void piece_highlight(){
 
        int temp, j, i;
@@ -438,7 +442,10 @@ public class Backgammon extends Application {
                possibleMove = true;
            if(possibleMove)
                playerOneHitted.getPiecelist().getLast().sethighlight();
-
+           else{
+               impossibleMove.show();
+               turn_changer();
+           }
            return;
        }
 
@@ -450,7 +457,10 @@ public class Backgammon extends Application {
                possibleMove = true;
            if(possibleMove)
                playerTwoHitted.getPiecelist().getLast().sethighlight();
-
+           else{
+               impossibleMove.show();
+               turn_changer();
+           }
            return;
        }
 
@@ -900,7 +910,7 @@ public class Backgammon extends Application {
 
                                        if(targetColmn.piece_counter()>0 ) {
                                            targetPiece = targetColmn.getPiecelist().getLast();
-                                           if( targetPiece.getType() != piece.getType()) {
+                                           if( targetPiece.getType() != piecetype) {
 
                                                targetColmn.remove_piece();
                                                if(targetPiece.getType() == Piecetype.RED){
@@ -912,6 +922,9 @@ public class Backgammon extends Application {
                                                }
                                            }
                                        }
+                                       else
+                                           targetPiece = null;
+
                                        piece_adder(targetColmn, piecetype);
 
                                        if (incorrect_place_flag || (!targetColmn.isPermission_flag())) {
@@ -920,8 +933,8 @@ public class Backgammon extends Application {
                                            piece_adder(colmn, piecetype);
 
 
-                                           if(targetColmn.piece_counter()>0 ) {
-                                               targetPiece = targetColmn.getPiecelist().getLast();
+                                           if(targetPiece != null ) {
+                                               //targetPiece = targetColmn.getPiecelist().getLast();
                                                if( targetPiece.getType() != piece.getType()) {
                                                    piece_adder(targetColmn, targetPiece.getType());
 
