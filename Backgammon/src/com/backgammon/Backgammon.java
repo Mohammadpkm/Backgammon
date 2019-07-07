@@ -73,6 +73,13 @@ public class Backgammon extends Application {
     static Color playerTwoColor = Color.MAROON;
 
     private Colmn targetColmn;
+    private Piece targetPiece;
+
+    private Colmn playerOneHitted = new Colmn(12, 2);
+    private Colmn playerTwoHitted = new Colmn(12, 3);
+
+    private boolean playerOneHitFlag = false;
+    private boolean playerTwoHitFlag = false;
 
     private void startWindow(){
         Stage window = new Stage();
@@ -421,11 +428,36 @@ public class Backgammon extends Application {
 
    public void piece_highlight(){
 
-       int temp=0;
+       int temp, j, i;
+       boolean possibleMove = false;
 
-       for(int j=0;j<2;j++){
+       if(playerOneHitFlag == true && player1.piecetype.turn == turn_flag){
+           if(first_dice_flag && ((board[12 - first_dice][0].piece_counter() < 2)||(board[12 - first_dice][0].piecelist.getLast().getType() == player1.piecetype)) )
+                possibleMove = true;
+           if(second_dice_flag && ((board[12 - second_dice][0].piece_counter() < 2)||(board[12 - second_dice][0].piecelist.getLast().getType() == player1.piecetype)) )
+               possibleMove = true;
+           if(possibleMove)
+               playerOneHitted.getPiecelist().getLast().sethighlight();
 
-           for(int i=0;i<12;i++){
+           return;
+       }
+
+
+       if(playerTwoHitFlag == true && player2.piecetype.turn == turn_flag){
+           if(first_dice_flag && ((board[12 - first_dice][1].piece_counter() < 2)||(board[12 - first_dice][1].piecelist.getLast().getType() == player2.piecetype)) )
+               possibleMove = true;
+           if(second_dice_flag && ((board[12 - second_dice][1].piece_counter() < 2)||(board[12 - second_dice][1].piecelist.getLast().getType() == player2.piecetype)) )
+               possibleMove = true;
+           if(possibleMove)
+               playerTwoHitted.getPiecelist().getLast().sethighlight();
+
+           return;
+       }
+
+
+       for(j=0;j<2;j++){
+
+           for(i=0;i<12;i++){
 
                if(board[i][j].piece_counter()>0) {
 
@@ -501,11 +533,56 @@ public class Backgammon extends Application {
 
            }
        }
+       if(playerOneHitFlag)
+            playerOneHitted.piecelist.getLast().removehighlight();
+       if(playerTwoHitFlag)
+            playerTwoHitted.piecelist.getLast().removehighlight();
 
    }
 
 
    public void colmn_highlight(double mouse_x,double mouse_y){
+
+        //boolean possibleMove = false;
+
+       if(playerOneHitFlag == true && player1.piecetype.turn == turn_flag){
+           if(first_dice_flag && ((board[12 - first_dice][0].piece_counter() < 2)||(board[12 - first_dice][0].piecelist.getLast().getType() == player1.piecetype)) ){
+               triangle_maker(12 - first_dice,0);
+
+               board[12 - first_dice][0].setPermission_flag(true);
+           }
+
+           if(second_dice_flag && ((board[12 - second_dice][0].piece_counter() < 2)||(board[12 - second_dice][0].piecelist.getLast().getType() == player1.piecetype)) ){
+               triangle_maker(12 - second_dice,0);
+
+               board[12 - second_dice][0].setPermission_flag(true);
+           }
+
+//           if(possibleMove)
+//               playerOneHitted.getPiecelist().getLast().sethighlight();
+
+           return;
+       }
+
+
+       if(playerTwoHitFlag == true && player2.piecetype.turn == turn_flag){
+           if(first_dice_flag && ((board[12 - first_dice][1].piece_counter() < 2)||(board[12 - first_dice][1].piecelist.getLast().getType() == player2.piecetype)) ){
+               triangle_maker(12 - first_dice,1);
+
+               board[12 - first_dice][1].setPermission_flag(true);
+           }
+
+           if(second_dice_flag && ((board[12 - second_dice][1].piece_counter() < 2)||(board[12 - second_dice][1].piecelist.getLast().getType() == player2.piecetype)) ){
+               triangle_maker(12 - second_dice,1);
+
+               board[12 - second_dice][1].setPermission_flag(true);
+           }
+
+//           if(possibleMove)
+//               playerOneHitted.getPiecelist().getLast().sethighlight();
+
+           return;
+       }
 
         targetColmn =colmn_finder(mouse_x,mouse_y);
 
@@ -534,18 +611,18 @@ public class Backgammon extends Application {
        }
 
 
-       if (colmn_finder(mouse_x,mouse_y).piecelist.getLast().getType() == player2.piecetype && (player2.piecetype.turn == turn_flag)) {
+       if (targetColmn.piecelist.getLast().getType() == player2.piecetype && (player2.piecetype.turn == turn_flag)) {
 
 
            if (first_dice_flag) {
 
-               highlight_detect2(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), first_dice,true);
+               highlight_detect2(targetColmn.getx(), targetColmn.gety(), first_dice,true);
 
            }
 
            if (second_dice_flag) {
 
-               highlight_detect2(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), second_dice,true);
+               highlight_detect2(targetColmn.getx(), targetColmn.gety(), second_dice,true);
 
            }
 
@@ -566,6 +643,18 @@ public class Backgammon extends Application {
         for(int i=0;i<temp;i++ ){
 
            highlight_group.getChildren().remove(highlight_group.getChildren().size()-1);
+
+       }
+       for(int i=0;i<12;i++){
+
+
+           for(int j=0;j<2;j++){
+
+               board[i][j].setPermission_flag(false);
+
+
+           }
+
 
        }
    }
@@ -745,6 +834,19 @@ public class Backgammon extends Application {
 
        }
 
+       if(colmn.y == 2){
+
+           piece.setOldx((Backgammon.board_width/2) - .3125 * Backgammon.size);
+           piece.setOldy( .5379*Backgammon.board_height+.7736*(Backgammon.board_height/2)-(colmn.piece_counter()+1)*Backgammon.size/3);
+       }
+
+       if(colmn.y == 3){
+
+           piece.setOldx((Backgammon.board_width/2) - .3125 * Backgammon.size);
+           piece.setOldy(.03*(Backgammon.board_height/2)+(colmn.piece_counter()+1)*Backgammon.size/3);
+       }
+
+
 
        piece.move();
        colmn.piece_adder(piece);
@@ -791,20 +893,47 @@ public class Backgammon extends Application {
 
                                    targetColmn = colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
+
                                    if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                                        colmn.remove_piece();
 
-                                       piece_adder(targetColmn, piecetype);
-                                       colmn_highlight_remove();
-                                       if(targetColmn.getPiecelist().getLast().getType() != piece.getType()){
 
+                                       if(targetColmn.piece_counter()>0 ) {
+                                           targetPiece = targetColmn.getPiecelist().getLast();
+                                           if( targetPiece.getType() != piece.getType()) {
+
+                                               targetColmn.remove_piece();
+                                               if(targetPiece.getType() == Piecetype.RED){
+                                                   playerOneHitFlag = true;
+                                                   piece_adder(playerOneHitted, targetPiece.getType());
+                                               }else{
+                                                   playerTwoHitFlag = true;
+                                                   piece_adder(playerTwoHitted, targetPiece.getType());
+                                               }
+                                           }
                                        }
+                                       piece_adder(targetColmn, piecetype);
 
                                        if (incorrect_place_flag || (!targetColmn.isPermission_flag())) {
 
                                            targetColmn.remove_piece();
                                            piece_adder(colmn, piecetype);
 
+
+                                           if(targetColmn.piece_counter()>0 ) {
+                                               targetPiece = targetColmn.getPiecelist().getLast();
+                                               if( targetPiece.getType() != piece.getType()) {
+                                                   piece_adder(targetColmn, targetPiece.getType());
+
+                                                   if(targetPiece.getType() == Piecetype.RED){
+                                                       playerOneHitFlag = false;
+                                                       playerOneHitted.remove_piece();
+                                                   }else{
+                                                       playerTwoHitFlag = false;
+                                                       playerTwoHitted.remove_piece();
+                                                   }
+                                               }
+                                           }
 
                                        }else if(targetColmn.y == colmn.y){
                                             if (first_dice_flag && (first_dice == Math.abs(targetColmn.x - colmn.x))) {
@@ -825,7 +954,22 @@ public class Backgammon extends Application {
                                                second_dice_flag = false;
                                                dice2.fadeOut();
                                            }
+                                           else if(colmn.x == 12){
+                                               if(first_dice_flag && first_dice == (12 - targetColmn.x)){
+                                                   first_dice_flag = false;
+                                                   dice1.fadeOut();
+                                               }
+                                               else if(second_dice_flag && second_dice == (12 - targetColmn.x)){
+                                                   second_dice_flag = false;
+                                                   dice2.fadeOut();
+                                               }
+
+                                           }
                                        }
+                                       if(colmn == playerOneHitted && colmn.piece_counter() == 0)
+                                            playerOneHitFlag = false;
+                                       if(colmn == playerTwoHitted && colmn.piece_counter() == 0)
+                                           playerTwoHitFlag = false;
 
                                        if(first_dice_flag || second_dice_flag){
                                            piece_highlight();
@@ -836,8 +980,7 @@ public class Backgammon extends Application {
                                            second_dice_flag = true;
                                        }
 
-
-                                       targetColmn.setPermission_flag(false);
+                                       colmn_highlight_remove();
 
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
                                        piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
@@ -885,6 +1028,10 @@ public class Backgammon extends Application {
 
 
         }
+
+        piecegroup.getChildren().add(playerOneHitted.getPiecegroup());
+        piecegroup.getChildren().add(playerTwoHitted.getPiecegroup());
+
         for(int count=0;count<5;count++){
 
 

@@ -24,14 +24,14 @@ public class Colmn extends Rectangle {
 
     int x=0;
     int y=0;
-    boolean permition_flag=false;
+    boolean permission_flag=false;
 
-    public boolean isPermition_flag() {
-        return permition_flag;
+    public boolean isPermission_flag() {
+        return permission_flag;
     }
 
-    public void setPermition_flag(boolean permition_flag) {
-        this.permition_flag = permition_flag;
+    public void setPermission_flag(boolean permission_flag) {
+        this.permission_flag = permission_flag;
     }
 
 
@@ -112,8 +112,14 @@ public class Colmn extends Rectangle {
 
         }
 
+        if(y==2){
+            relocate((Backgammon.board_width/2) - .3125 * Backgammon.size,.5379*(Backgammon.board_height/2));
 
+        }
+        if(y==3) {
+            relocate((Backgammon.board_width/2) - .3125 * Backgammon.size,.1349*(Backgammon.board_height/2));
 
+        }
 
     }
 
