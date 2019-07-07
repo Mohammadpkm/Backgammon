@@ -10,7 +10,15 @@ public class Player {
 
 
     int score=0;
+    boolean final_flag=false;
 
+    public boolean isFinal_flag() {
+        return final_flag;
+    }
+
+    public void setFinal_flag(boolean final_flag) {
+        this.final_flag = final_flag;
+    }
 
     public String getName() {
         return name;

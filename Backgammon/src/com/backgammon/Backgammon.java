@@ -297,6 +297,9 @@ public class Backgammon extends Application {
                }
                seting_dice_number();
 
+               final_checcker();
+               if(player1.final_flag)final_highlighter(1);
+               if(player2.final_flag)final_highlighter(2);
                piece_highlight();
 
            }
@@ -881,11 +884,93 @@ public class Backgammon extends Application {
 //           second_dice_flag = true;
 //       }
 
+       piece.setOnMouseClicked(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent event) {
+
+               if(piece.isMovable()&&player1.final_flag&&(player1.piecetype.turn==turn_flag)){
+
+                   colmn_finder(event.getSceneX(),event.getSceneY()).remove_piece();
+                   player1.setScore(player1.getScore()+1);
+                   if(colmn_finder(event.getSceneX(),event.getSceneY()).getx()==(12-first_dice))
+                   {
+                       first_dice_flag = false;
+                       if(doubleDiceFlag == true)
+                           dice3.fadeOut();
+                       else
+                           dice1.fadeOut();
+
+                   }
+                   else
+                   {
+                       second_dice_flag = false;
+                       if(doubleDiceFlag == true)
+                           dice4.fadeOut();
+                       else
+                           dice2.fadeOut();
+
+                   }
+
+               }
+
+               if(piece.isMovable()&&player2.final_flag&&(player2.piecetype.turn==turn_flag)){
+
+                   colmn_finder(event.getSceneX(),event.getSceneY()).remove_piece();
+                   player2.setScore(player2.getScore()+1);
+
+                   if(colmn_finder(event.getSceneX(),event.getSceneY()).getx()==(12-first_dice))
+                   {
+                       first_dice_flag = false;
+                       if(doubleDiceFlag == true)
+                           dice3.fadeOut();
+                       else
+                           dice1.fadeOut();
+
+                   }
+                   else
+                   {
+
+                       second_dice_flag = false;
+                       if(doubleDiceFlag == true)
+                           dice4.fadeOut();
+                       else
+                           dice2.fadeOut();
+
+                   }
+
+
+
+
+
+
+               }
+
+               if(first_dice_flag || second_dice_flag){
+                   piece_highlight();
+               }
+               else if(doubleDiceFlag == true){
+                   first_dice_flag = true;
+                   second_dice_flag = true;
+                   doubleDiceFlag = false;
+                   piece_highlight();
+               }
+               else{
+                   turn_changer();
+                   first_dice_flag = true;
+                   second_dice_flag = true;
+               }
+
+
+
+           }
+       });
 
 
        piece.setOnMousePressed(new EventHandler<MouseEvent>() {
            @Override
            public void handle(MouseEvent mouseEvent) {
+
+
 
                if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                    piece.mousex = mouseEvent.getSceneX();
@@ -895,6 +980,7 @@ public class Backgammon extends Application {
 
 
                }
+
            }
        });
 
@@ -1033,6 +1119,7 @@ public class Backgammon extends Application {
 
                                        colmn_highlight_remove();
 
+
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
                                        piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
                                        piece.move();
@@ -1052,6 +1139,34 @@ public class Backgammon extends Application {
 
 
 
+   public void final_checcker(){
+
+        int temp1=0;
+        int temp2=0;
+
+        for(int count=6;count<12;count++){
+
+
+            temp1+=board[count][1].piece_counter();
+            temp2+=board[count][0].piece_counter();
+
+        }
+
+        if(temp1==15)player1.setFinal_flag(true);
+        if(temp2==15)player2.setFinal_flag(true);
+
+
+
+   }
+
+   public void final_highlighter(int i){
+
+        board[12-first_dice][i%2].getPiecelist().getLast().sethighlight();
+        board[12-first_dice][i%2].getPiecelist().getLast().setMovable(true);
+        board[12-second_dice][i%2].getPiecelist().getLast().sethighlight();
+        board[12-second_dice][i%2].getPiecelist().getLast().setMovable(true);
+
+   }
 
     public Parent center(){
 
