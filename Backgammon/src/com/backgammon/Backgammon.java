@@ -363,6 +363,8 @@ public class Backgammon extends Application {
                 if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
 
                     triangle_maker(x,y);
+                    board[x][y].setPermission_flag(true);
+
                 }
             }
 
@@ -409,6 +411,8 @@ public class Backgammon extends Application {
                if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
 
                    triangle_maker(x,y);
+
+                   board[x][y].setPermission_flag(true);
                }
            }
 
@@ -506,18 +510,19 @@ public class Backgammon extends Application {
 
    public void colmn_highlight(double mouse_x,double mouse_y){
 
+        targetColmn =colmn_finder(mouse_x,mouse_y);
 
-       if (colmn_finder(mouse_x,mouse_y).piecelist.getLast().getType() == player1.piecetype && (player1.piecetype.turn == turn_flag)) {
+       if (targetColmn.piecelist.getLast().getType() == player1.piecetype && (player1.piecetype.turn == turn_flag)) {
 
            if (first_dice_flag) {
 
-               highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), first_dice,true);
-
+               highlight_detect1(targetColmn.getx(), targetColmn.gety(), first_dice,true);
+               //targetColmn.permission_flag = runing_flag;
            }
 
            if (second_dice_flag) {
 
-               highlight_detect1(colmn_finder(mouse_x,mouse_y).getx(), colmn_finder(mouse_x,mouse_y).gety(), second_dice,true);
+               highlight_detect1(targetColmn.getx(),targetColmn.gety(), second_dice,true);
 
            }
 
@@ -795,18 +800,18 @@ public class Backgammon extends Application {
                                        piece_adder(targetColmn, piecetype);
                                        colmn_highlight_remove();
 
-                                       if (incorrect_place_flag) {
+                                       if (incorrect_place_flag || (!targetColmn.isPermission_flag())) {
 
                                            targetColmn.remove_piece();
                                            piece_adder(colmn, piecetype);
 
 
                                        }else if(targetColmn.y == colmn.y){
-                                            if (first_dice_flag && (first_dice == (targetColmn.x - colmn.x)|| first_dice == (colmn.x - targetColmn.x))) {
+                                            if (first_dice_flag && (first_dice == Math.abs(targetColmn.x - colmn.x))) {
                                                 first_dice_flag = false;
                                                 dice1.fadeOut();
                                             }
-                                            else if (second_dice_flag && (second_dice == (targetColmn.x - colmn.x)|| second_dice == (colmn.x - targetColmn.x))) {
+                                            else if (second_dice_flag && (second_dice == Math.abs(targetColmn.x - colmn.x))) {
                                                 second_dice_flag = false;
                                                 dice2.fadeOut();
                                             }
@@ -831,7 +836,7 @@ public class Backgammon extends Application {
                                        }
 
 
-
+                                       targetColmn.setPermission_flag(false);
 
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
                                        piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
