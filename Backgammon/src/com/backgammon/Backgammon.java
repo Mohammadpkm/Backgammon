@@ -802,15 +802,23 @@ public class Backgammon extends Application {
 
 
                                        }else if(targetColmn.y == colmn.y){
-                                            if (first_dice_flag && (first_dice == (targetColmn.x - colmn.x)|| first_dice == (colmn.x - targetColmn.x)))
+                                            if (first_dice_flag && (first_dice == (targetColmn.x - colmn.x)|| first_dice == (colmn.x - targetColmn.x))) {
                                                 first_dice_flag = false;
-                                            else if (second_dice_flag && (second_dice == (targetColmn.x - colmn.x)|| second_dice == (colmn.x - targetColmn.x)))
+                                                dice1.fadeOut();
+                                            }
+                                            else if (second_dice_flag && (second_dice == (targetColmn.x - colmn.x)|| second_dice == (colmn.x - targetColmn.x))) {
                                                 second_dice_flag = false;
+                                                dice2.fadeOut();
+                                            }
                                        }else {
-                                           if (first_dice_flag && first_dice == (targetColmn.x + colmn.x + 1))
+                                           if (first_dice_flag && first_dice == (targetColmn.x + colmn.x + 1)) {
                                                first_dice_flag = false;
-                                           else if (second_dice_flag && second_dice == (targetColmn.x + colmn.x + 1))
+                                               dice1.fadeOut();
+                                           }
+                                           else if (second_dice_flag && second_dice == (targetColmn.x + colmn.x + 1)) {
                                                second_dice_flag = false;
+                                               dice2.fadeOut();
+                                           }
                                        }
 
                                        if(first_dice_flag || second_dice_flag){
