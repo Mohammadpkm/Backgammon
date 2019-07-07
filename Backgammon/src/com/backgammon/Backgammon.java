@@ -58,22 +58,19 @@ public class Backgammon extends Application {
     public Group piecegroup = new Group();
     public Group highlight_group=new Group();
 
-    //String playerOneName;
-    //String playerTwoName;
-
-    private Label playerOneLabel;
-    private Label playerTwoLabel;
-    private Label playersTurnIndicator;
-
     private String playerOneName = "Player 1";
     private String playerTwoName = "Player 2";
+
+    private Label playerOneLabel = new Label(playerOneName);
+    private Label playerTwoLabel = new Label(playerTwoName);
+    private Label playersTurnIndicator;
 
     private String availableColors[] = {"chocolate","maroon","gray","blue violate","silver","olive","pink","snow"};
     private Color availableColorCode [] = {Color.CHOCOLATE, Color.MAROON, Color.GRAY, Color.BLUEVIOLET,
             Color.SILVER, Color.OLIVE, Color.PINK, Color.SNOW};
 
-    static Color playerOneColor;
-    static Color playerTwoColor;
+    static Color playerOneColor = Color.CHOCOLATE;
+    static Color playerTwoColor = Color.MAROON;
 
     private Colmn targetColmn;
 
@@ -199,7 +196,7 @@ public class Backgammon extends Application {
         playerTwoLabel.setMinHeight(base*1.5);
         playerTwoLabel.setAlignment(Pos.TOP_RIGHT);
 
-        this.playersTurnIndicator = new Label();
+        this.playersTurnIndicator = new Label(playerOneLabel.getText());
         playersTurnIndicator.setFont(new Font(base));
 
 
