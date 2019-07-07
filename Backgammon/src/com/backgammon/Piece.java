@@ -25,6 +25,7 @@ public class Piece extends StackPane {
 
        this.piece.setStroke(Color.YELLOW);
        this.piece.setStrokeWidth(Backgammon.size*.07);
+       this.setMovable(true);
 
     }
 
