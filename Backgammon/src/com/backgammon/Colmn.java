@@ -24,14 +24,14 @@ public class Colmn extends Rectangle {
 
     int x=0;
     int y=0;
-    boolean permission_flag=false;
+    boolean permition_flag=false;
 
-    public boolean isPermission_flag() {
-        return permission_flag;
+    public boolean isPermition_flag() {
+        return permition_flag;
     }
 
-    public void setPermission_flag(boolean permition_flag) {
-        this.permission_flag = permition_flag;
+    public void setPermition_flag(boolean permition_flag) {
+        this.permition_flag = permition_flag;
     }
 
 
