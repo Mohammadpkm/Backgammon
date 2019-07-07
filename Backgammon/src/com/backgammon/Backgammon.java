@@ -360,6 +360,7 @@ public class Backgammon extends Application {
             if (runing_flag) {
                 if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player2.piecetype)) {
 
+                    board[x][y].setPermition_flag(true);
                     triangle_maker(x,y);
                 }
             }
@@ -406,6 +407,7 @@ public class Backgammon extends Application {
            if (runing_flag) {
                if ((board[x][y].piece_counter() == 0)||(board[x][y].piecelist.getLast().getType() == player1.piecetype)) {
 
+                   board[x][y].setPermition_flag(true);
                    triangle_maker(x,y);
                }
            }
@@ -617,6 +619,22 @@ public class Backgammon extends Application {
 
    }
 
+   public void permition_off(){
+
+
+        for(int j=0;j<2;j++) {
+            for (int i = 0; i < 12; i++) {
+
+
+                board[i][j].setPermition_flag(false);
+
+
+            }
+        }
+
+
+
+   }
 
 
    public Colmn colmn_finder(double x,double y){
@@ -744,7 +762,7 @@ public class Backgammon extends Application {
 
        piece.move();
        colmn.piece_adder(piece);
-       turn_changer();
+
 
 
        piece.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -782,17 +800,38 @@ public class Backgammon extends Application {
                                    if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                                        colmn.remove_piece();
 
-                                       piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
-                                       colmn_highlight_remove();
 
-                                       if (incorrect_place_flag) {
+                                       if(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).isPermition_flag()) {
 
-                                           colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
+                                           piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
+                                           turn_changer();
+
+                                       }
+
+                                       if(!colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).isPermition_flag()&&!incorrect_place_flag) {
+
+
+                                           System.out.println("hi");
+                                          // colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
                                            piece_adder(colmn, piecetype);
+
 
 
                                        }
 
+
+                                       if (incorrect_place_flag) {
+
+                                           //colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
+                                           piece_adder(colmn, piecetype);
+
+                                       }
+
+
+                                       permition_off();
+                                       colmn_highlight_remove();
+
+                                       if(piecetype.turn==turn_flag)piece_highlight();
 
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
                                        piece.setOldy(mouseEvent.getSceneY() - piece.getMousey() + piece.getOldy());
@@ -840,9 +879,16 @@ public class Backgammon extends Application {
 
 
         }
+
+        board[0][0].setPermition_flag(true);
+        board[0][1].setPermition_flag(true);
+        board[6][1].setPermition_flag(true);
+        board[6][0].setPermition_flag(true);
+        board[4][1].setPermition_flag(true);
+        board[4][0].setPermition_flag(true);
+        board[11][0].setPermition_flag(true);
+        board[11][1].setPermition_flag(true);
         for(int count=0;count<5;count++){
-
-
             piece_adder(board[0][0],Piecetype.RED);
             piece_adder(board[0][1],Piecetype.GRAY);
 
@@ -866,6 +912,16 @@ public class Backgammon extends Application {
             }
 
         }
+
+        board[0][0].setPermition_flag(false);
+        board[0][1].setPermition_flag(false);
+        board[6][1].setPermition_flag(false);
+        board[6][0].setPermition_flag(false);
+        board[4][1].setPermition_flag(false);
+        board[4][0].setPermition_flag(false);
+        board[11][0].setPermition_flag(false);
+        board[11][1].setPermition_flag(false);
+
 
 
         dice1 = new Dice();
