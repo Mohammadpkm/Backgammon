@@ -38,6 +38,7 @@ public class Backgammon extends Application {
     int second_dice;
     boolean first_dice_flag=true;
     boolean second_dice_flag=true;
+    boolean doubleDiceFlag = false;
     Player player1=new Player(0,Piecetype.RED,0);
     Player player2=new Player(0,Piecetype.GRAY,0);
     boolean runing_flag=false;
@@ -280,12 +281,16 @@ public class Backgammon extends Application {
                    dice4.valueProperty.set(dice1.dice_number);
                    stackPane.getChildren().removeAll(dice3,dice4);
                    stackPane.getChildren().addAll(dice3,dice4);
+                   doubleDiceFlag = true;
 
                }
                else{
                    stackPane.getChildren().removeAll(dice3,dice4);
+                   doubleDiceFlag = false;
+
                }
                seting_dice_number();
+
                piece_highlight();
 
            }
@@ -303,10 +308,12 @@ public class Backgammon extends Application {
                    dice4.valueProperty.set(dice1.dice_number);
                    stackPane.getChildren().removeAll(dice3,dice4);
                    stackPane.getChildren().addAll(dice3,dice4);
+                   doubleDiceFlag = true;
 
                }
                else{
                    stackPane.getChildren().removeAll(dice3,dice4);
+                   doubleDiceFlag = false;
                }
                seting_dice_number();
                piece_highlight();
@@ -869,6 +876,7 @@ public class Backgammon extends Application {
 //       }
 
 
+
        piece.setOnMousePressed(new EventHandler<MouseEvent>() {
            @Override
            public void handle(MouseEvent mouseEvent) {
@@ -951,30 +959,48 @@ public class Backgammon extends Application {
                                        }else if(targetColmn.y == colmn.y){
                                             if (first_dice_flag && (first_dice == Math.abs(targetColmn.x - colmn.x))) {
                                                 first_dice_flag = false;
-                                                dice1.fadeOut();
+                                                if(doubleDiceFlag == true)
+                                                    dice3.fadeOut();
+                                                else
+                                                    dice1.fadeOut();
 
                                             }
                                             else if (second_dice_flag && (second_dice == Math.abs(targetColmn.x - colmn.x))) {
                                                 second_dice_flag = false;
-                                                dice2.fadeOut();
+                                                if(doubleDiceFlag == true)
+                                                    dice4.fadeOut();
+                                                else
+                                                    dice2.fadeOut();
                                             }
                                        }else {
                                            if (first_dice_flag && first_dice == (targetColmn.x + colmn.x + 1)) {
                                                first_dice_flag = false;
-                                               dice1.fadeOut();
+                                               if(doubleDiceFlag == true)
+                                                   dice3.fadeOut();
+                                               else
+                                                    dice1.fadeOut();
                                            }
                                            else if (second_dice_flag && second_dice == (targetColmn.x + colmn.x + 1)) {
                                                second_dice_flag = false;
-                                               dice2.fadeOut();
+                                               if(doubleDiceFlag == true)
+                                                   dice4.fadeOut();
+                                               else
+                                                    dice2.fadeOut();
                                            }
                                            else if(colmn.x == 12){
                                                if(first_dice_flag && first_dice == (12 - targetColmn.x)){
                                                    first_dice_flag = false;
-                                                   dice1.fadeOut();
+                                                   if(doubleDiceFlag == true)
+                                                       dice3.fadeOut();
+                                                   else
+                                                        dice1.fadeOut();
                                                }
                                                else if(second_dice_flag && second_dice == (12 - targetColmn.x)){
                                                    second_dice_flag = false;
-                                                   dice2.fadeOut();
+                                                   if(doubleDiceFlag == true)
+                                                       dice4.fadeOut();
+                                                   else
+                                                        dice2.fadeOut();
                                                }
 
                                            }
@@ -985,6 +1011,12 @@ public class Backgammon extends Application {
                                            playerTwoHitFlag = false;
 
                                        if(first_dice_flag || second_dice_flag){
+                                           piece_highlight();
+                                       }
+                                       else if(doubleDiceFlag == true){
+                                            first_dice_flag = true;
+                                            second_dice_flag = true;
+                                            doubleDiceFlag = false;
                                            piece_highlight();
                                        }
                                        else{
