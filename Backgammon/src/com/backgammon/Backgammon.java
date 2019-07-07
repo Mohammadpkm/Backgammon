@@ -75,6 +75,8 @@ public class Backgammon extends Application {
     static Color playerOneColor;
     static Color playerTwoColor;
 
+    private Colmn targetColmn;
+
     private void startWindow(){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -744,7 +746,13 @@ public class Backgammon extends Application {
 
        piece.move();
        colmn.piece_adder(piece);
-       turn_changer();
+//       if(first_dice_flag || second_dice_flag){
+//
+//       }else{
+//           turn_changer();
+//           first_dice_flag = true;
+//           second_dice_flag = true;
+//       }
 
 
        piece.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -779,19 +787,42 @@ public class Backgammon extends Application {
                                @Override
                               public void handle(MouseEvent mouseEvent) {
 
+                                   targetColmn = colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+
                                    if(piece.isMovable()&&(turn_flag==piecetype.turn)) {
                                        colmn.remove_piece();
 
-                                       piece_adder(colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()), piecetype);
+                                       piece_adder(targetColmn, piecetype);
                                        colmn_highlight_remove();
 
                                        if (incorrect_place_flag) {
 
-                                           colmn_finder(mouseEvent.getSceneX(), mouseEvent.getSceneY()).remove_piece();
+                                           targetColmn.remove_piece();
                                            piece_adder(colmn, piecetype);
 
 
+                                       }else if(targetColmn.y == colmn.y){
+                                            if (first_dice_flag && (first_dice == (targetColmn.x - colmn.x)|| first_dice == (colmn.x - targetColmn.x)))
+                                                first_dice_flag = false;
+                                            else if (second_dice_flag && (second_dice == (targetColmn.x - colmn.x)|| second_dice == (colmn.x - targetColmn.x)))
+                                                second_dice_flag = false;
+                                       }else {
+                                           if (first_dice_flag && first_dice == (targetColmn.x + colmn.x + 1))
+                                               first_dice_flag = false;
+                                           else if (second_dice_flag && second_dice == (targetColmn.x + colmn.x + 1))
+                                               second_dice_flag = false;
                                        }
+
+                                       if(first_dice_flag || second_dice_flag){
+                                           piece_highlight();
+                                       }
+                                       else{
+                                           turn_changer();
+                                           first_dice_flag = true;
+                                           second_dice_flag = true;
+                                       }
+
+
 
 
                                        piece.setOldx(mouseEvent.getSceneX() - piece.getMousex() + piece.getOldx());
