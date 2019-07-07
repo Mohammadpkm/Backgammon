@@ -24,14 +24,14 @@ public class Colmn extends Rectangle {
 
     int x=0;
     int y=0;
-    boolean permition_flag=false;
+    boolean permission_flag=false;
 
-    public boolean isPermition_flag() {
-        return permition_flag;
+    public boolean isPermission_flag() {
+        return permission_flag;
     }
 
-    public void setPermition_flag(boolean permition_flag) {
-        this.permition_flag = permition_flag;
+    public void setPermission_flag(boolean permition_flag) {
+        this.permission_flag = permition_flag;
     }
 
 
@@ -59,7 +59,7 @@ public class Colmn extends Rectangle {
         piecelist.add(piece);
         piecegroup.getChildren().add(piece);
 
-        piecelist.get(piece_counter()-1).setMovable(true);
+        //piecelist.get(piece_counter()-1).setMovable(true);
 
 
     }
@@ -69,9 +69,9 @@ public class Colmn extends Rectangle {
         piecegroup.getChildren().remove(piece_counter() - 1);
         piecelist.removeLast();
 
-        if(piece_counter()>0) {
-            piecelist.get(piece_counter() - 1).setMovable(true);
-        }
+//        if(piece_counter()>0) {
+//            piecelist.get(piece_counter() - 1).setMovable(true);
+//        }
 
 
     }

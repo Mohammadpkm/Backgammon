@@ -19,6 +19,9 @@ public class Dice extends StackPane {
 
     int dice_number;
 
+    Rectangle dice;
+    Text text;
+
     public int getDice_number() {
 
         return dice_number;
@@ -34,16 +37,16 @@ public class Dice extends StackPane {
 
    public Dice(){
 
-       Rectangle rectangle=new Rectangle(Backgammon.size/2,Backgammon.size/2);
-       rectangle.setFill(Color.YELLOW);
-       rectangle.setStroke(Color.ORANGE);
-       rectangle.setStrokeWidth(5);
-       Text text=new Text();
+       dice = new Rectangle(Backgammon.size/2,Backgammon.size/2);
+       dice.setFill(Color.YELLOW);
+       dice.setStroke(Color.ORANGE);
+       dice.setStrokeWidth(5);
+       text=new Text();
        text.setFill(Color.BLACK);
        text.textProperty().bind(valueProperty.asString());
-       text.setFont(new Font("Chiller",50));
+       text.setFont(new Font(Backgammon.base));
        this.setAlignment(Pos.CENTER);
-       getChildren().addAll(rectangle,text);
+       getChildren().addAll(dice,text);
 
 //       this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 //           @Override
@@ -57,6 +60,9 @@ public class Dice extends StackPane {
 
 
    public void roll(){
+
+
+       this.fadeIn();
 
 
        RotateTransition rotat=new RotateTransition(Duration.seconds(2),this);
@@ -79,7 +85,16 @@ public class Dice extends StackPane {
 
    }
 
+   public void fadeOut(){
+       dice.setOpacity(0.6);
+       text.setOpacity(0.6);
+   }
 
 
+    public void fadeIn(){
+        dice.setOpacity(1);
+        text.setOpacity(1);
+
+    }
 
 }
