@@ -30,7 +30,7 @@ public class Colmn extends Rectangle {
         return permission_flag;
     }
 
-    public void setPermission_flag(boolean permission_flag) {
+    public void setPermission_flag(boolean permition_flag) {
         this.permission_flag = permission_flag;
     }
 

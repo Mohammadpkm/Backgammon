@@ -74,12 +74,14 @@ public class Dice extends StackPane {
            public void handle(ActionEvent actionEvent) {
 
 
+
                valueProperty.set(dice_number);
               // System.out.println(getDice_number());
 
            }
        });
 
+       
        dice_number=(int)(Math.random()*(max-min+1))+min;
        rotat.play();
 

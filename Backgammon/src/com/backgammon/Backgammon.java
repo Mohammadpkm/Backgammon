@@ -1,5 +1,6 @@
 package com.backgammon;
 
+import java.io.File;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -20,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.*;
@@ -167,6 +170,7 @@ public class Backgammon extends Application {
         layout.setVgap(base/2);
 
         Scene scene = new Scene(layout);
+        scene.setFill(Color.BROWN);
         window.setScene(scene);
 
         window.showAndWait();
@@ -1132,6 +1136,9 @@ public class Backgammon extends Application {
 
         return stackPane;
     }
+
+
+
     @Override
     public void init() throws Exception {
         super.init();
