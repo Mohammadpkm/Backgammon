@@ -276,6 +276,8 @@ public class Backgammon extends Application {
 
                dice1.roll();
                dice2.roll();
+               first_dice_flag = true;
+               second_dice_flag = true;
                if(dice1.dice_number == dice2.dice_number){
                    dice3.valueProperty.set(dice1.dice_number);
                    dice4.valueProperty.set(dice1.dice_number);
